@@ -1,0 +1,5 @@
+console.log(greeting);
+const greeting = await helloWorld.getGreeting();
+const helloWorld = await HelloWorld.attach('0x5FbDB2315678afecb367f032d93F642f64180aa3');
+  const helloWorld = await HelloWorld.attach('0x5FbDB2315678afecb367f032d93F642f64180aa3');
+const HelloWorld = await ethers.getContractFactory("HelloWorld");
