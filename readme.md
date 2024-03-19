@@ -1,12 +1,14 @@
-```
-npm run start
-npx hardhat compile
-npx hardhat node
-npx hardhat run scripts/deploy.js --network localhost
-```
+deploy solidity
 
 ```
-npx hardhat run scripts/deploy.js --network localhost
+npx hardhat compile
+npx hardhat run scripts/deploy.js --network sepolia
 ```
 
 npx hardhat run scripts/mint-nft.js --network sepolia
+
+start frontend UI
+
+```
+npm run start
+```

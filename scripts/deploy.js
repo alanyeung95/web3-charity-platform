@@ -1,12 +1,28 @@
 const hre = require("hardhat");
 
 async function main() {
-  const HelloWorld = await hre.ethers.getContractFactory("HelloWorld");
-  const helloWorld = await HelloWorld.deploy();
+  const Greeter = await hre.ethers.getContractFactory("Greeter");
+  const greeter = await Greeter.deploy("Hello, Hardhat!");
 
-  await helloWorld.deployed();
+  await greeter.deployed();
 
-  console.log("HelloWorld deployed to:", helloWorld.address);
+  console.log("Greeter deployed to:", greeter.address);
+  /*
+  const TicketNFT = await hre.ethers.getContractFactory("TicketNFT");
+
+  // Replace 'YOUR_NFT_METADATA_URI' with your desired URI for the NFT metadata
+  const ticketNFT = await TicketNFT.deploy("testing nft");
+
+  await ticketNFT.deployed();
+
+  console.log("TicketNFT deployed to:", ticketNFT.address);
+
+  // Deploy SampleCoin contract
+  const SampleCoin = await hre.ethers.getContractFactory("SampleCoin");
+  const sampleCoin = await SampleCoin.deploy();
+  await sampleCoin.deployed();
+  console.log("SampleCoin deployed to:", sampleCoin.address);
+  */
 }
 
 main()

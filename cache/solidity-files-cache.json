@@ -1,12 +1,51 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/alan/Documents/git/web3-charity-platform/contracts/hello.sol": {
-      "lastModificationDate": 1709695705864,
-      "contentHash": "bc9b07298153abb654a5ec731de57ba7",
-      "sourceName": "contracts/hello.sol",
+    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/Greeter.sol": {
+      "lastModificationDate": 1710829856695,
+      "contentHash": "7bd734238644081d34b4508d40e84a39",
+      "sourceName": "contracts/Greeter.sol",
       "solcConfig": {
-        "version": "0.8.24",
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "hardhat/console.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "AggregatorV3Interface",
+        "Greeter"
+      ]
+    },
+    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/hardhat/console.sol": {
+      "lastModificationDate": 1710827907177,
+      "contentHash": "896f68942c3a20e9ae3c3c5bfd3add54",
+      "sourceName": "hardhat/console.sol",
+      "solcConfig": {
+        "version": "0.8.20",
         "settings": {
           "evmVersion": "paris",
           "optimizer": {
@@ -31,10 +70,10 @@
       },
       "imports": [],
       "versionPragmas": [
-        "^0.8.24"
+        ">=0.4.22 <0.9.0"
       ],
       "artifacts": [
-        "HelloWorld"
+        "console"
       ]
     }
   }
