@@ -4,13 +4,11 @@ import { ethers } from "ethers";
 
 // Import ABI Code to interact with smart contract
 import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
-//import MyNFT from "./artifacts/contracts/TicketNFT.sol/TicketNFT.json";
 import "./App.css";
 
 // The contract address
 //const greeterAddress = "0x49A33C745cC8a7080646FBB2362fFFf494c0efF4";
-const greeterAddress = "0x12f8E86bEF38274845700012910651ED2bA5582B";
-//const nftAddress = "0x20612DD54Eae1fafd0F2654A7D5c5dc142C03552";
+const greeterAddress = "0xc7B6ccff79bAeF2F6E8696D36B8c44Ca15a9c619";
 
 function App() {
   // Property Variables
@@ -25,27 +23,6 @@ function App() {
   async function requestAccount() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
   }
-  /*
-  async function checkNFTOwnership() {
-    if (typeof window.ethereum !== "undefined") {
-      await requestAccount();
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(nftAddress, MyNFT.abi, provider);
-      const signer = provider.getSigner();
-      const address = await signer.getAddress();
-      const balance = await contract.balanceOf(address, "999");
-
-      console.log(balance);
-      if (balance > 0) {
-        console.log("have nft");
-        //setHasNFT(true);
-      } else {
-        console.log("don't have nft");
-        //setHasNFT(false);
-      }
-    }
-  }
-  */
 
   // Fetches the current value store in greeting
   async function fetchGreeting() {
@@ -106,11 +83,6 @@ function App() {
       fetchGreeting();
     }
   }
-  /*
-  useEffect(() => {
-    checkNFTOwnership();
-  }, [checkNFTOwnership]);
-  */
 
   // Return
   return (

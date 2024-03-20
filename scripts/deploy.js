@@ -7,7 +7,7 @@ async function main() {
   await greeter.deployed();
 
   console.log("Greeter deployed to:", greeter.address);
-  /*
+
   const TicketNFT = await hre.ethers.getContractFactory("TicketNFT");
 
   // Replace 'YOUR_NFT_METADATA_URI' with your desired URI for the NFT metadata
@@ -16,7 +16,7 @@ async function main() {
   await ticketNFT.deployed();
 
   console.log("TicketNFT deployed to:", ticketNFT.address);
-
+  /*
   // Deploy SampleCoin contract
   const SampleCoin = await hre.ethers.getContractFactory("SampleCoin");
   const sampleCoin = await SampleCoin.deploy();
