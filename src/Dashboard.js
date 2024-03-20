@@ -4,13 +4,13 @@ import { ethers } from "ethers";
 
 // Import ABI Code to interact with smart contract
 import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
-import "./App.css";
+import "./Dashboard.css";
 
 // The contract address
 //const greeterAddress = "0x49A33C745cC8a7080646FBB2362fFFf494c0efF4";
 const greeterAddress = "0xc7B6ccff79bAeF2F6E8696D36B8c44Ca15a9c619";
 
-function App() {
+function Dashboard() {
   // Property Variables
 
   const [message, setMessage] = useState("");
@@ -86,8 +86,8 @@ function App() {
 
   // Return
   return (
-    <div className="App">
-      <div className="App-header">
+    <div className="Dashboard">
+      <div className="Dashboard-header">
         {/* DESCRIPTION  */}
         <div className="description">
           <h1>Web3 Charity Platform</h1>
@@ -116,4 +116,4 @@ function App() {
   );
 }
 
-export default App;
+export default Dashboard;
