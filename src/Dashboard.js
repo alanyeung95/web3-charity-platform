@@ -1,116 +1,101 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-
-// Import ABI Code to interact with smart contract
-import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
 import "./Dashboard.css";
 
-// The contract address
-//const greeterAddress = "0x49A33C745cC8a7080646FBB2362fFFf494c0efF4";
-const greeterAddress = "0xc7B6ccff79bAeF2F6E8696D36B8c44Ca15a9c619";
-
 function Dashboard() {
-  // Property Variables
+  const [balance, setBalance] = useState("0.0000");
+  const [donationAmount, setDonationAmount] = useState("0.001");
+  const [isLoading, setIsLoading] = useState(false);
+  const [donationSuccess, setDonationSuccess] = useState(false);
 
-  const [message, setMessage] = useState("");
-  const [currentGreeting, setCurrentGreeting] = useState("");
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  //const signer = provider.getSigner();
+  const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421"; // Replace with your contract address
+  //const contractABI = []; // Replace with your contract ABI
 
-  // Helper Functions
+  async function fetchMoneyPoolBalance() {
+    try {
+      const balanceWei = await provider.getBalance(contractAddress);
+      const balanceEther = ethers.utils.formatEther(balanceWei);
+      setBalance(parseFloat(balanceEther).toFixed(5));
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+  }
 
-  // Requests access to the user's Meta Mask Account
-  // https://metamask.io/
   async function requestAccount() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
-  // Fetches the current value store in greeting
-  async function fetchGreeting() {
-    // If MetaMask exists
-    if (typeof window.ethereum !== "undefined") {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(
-        greeterAddress,
-        Greeter.abi,
-        provider
-      );
-      try {
-        // Call Greeter.greet() and display current greeting in `console`
-        /* 
-          function greet() public view returns (string memory) {
-            return greeting;
-          }
-        */
-        const data = await contract.greet();
-        console.log("data: ", data);
-
-        const data2 = await contract.getLatestPrice();
-        console.log("data2: ", data2);
-
-        const data3 = await contract.getETHLatestPrice();
-        console.log("data3: ", data3);
-
-        setCurrentGreeting(data);
-      } catch (error) {
-        console.log("Error: ", error);
-      }
+  const donate = async (signer) => {
+    try {
+      const tx = await signer.sendTransaction({
+        to: contractAddress,
+        value: ethers.utils.parseEther("0.001"),
+      });
+      await tx.wait();
+      console.log("Donation made!");
+    } catch (error) {
+      console.error("Error making donation:", error);
     }
-  }
+  };
 
-  // Sets the greeting from input text box
-  async function setGreeting() {
-    if (!message) return;
+  async function handleDonate() {
+    if (!donationAmount) return;
 
-    // If MetaMask exists
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
 
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
-      // Create contract with signer
-      /*
-        function setGreeting(string memory _greeting) public {
-          console.log("Changing greeting from '%s' to '%s'", greeting, _greeting);
-          greeting = _greeting;
-        } 
-      */
-      const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer);
-      const transaction = await contract.setGreeting(message);
+      console.log(signer);
 
-      setMessage("");
-      await transaction.wait();
-      fetchGreeting();
+      setIsLoading(true);
+      try {
+        await donate(signer);
+        setDonationSuccess(true); // Donation was successful
+        fetchMoneyPoolBalance(); // refresh the balance
+      } catch (error) {
+        console.error("Error making donation:", error);
+        setDonationSuccess(false); // Donation failed
+      }
+      setIsLoading(false);
+
+      fetchMoneyPoolBalance(); // refresh the balance
     }
   }
 
-  // Return
+  useEffect((fetchMoneyPoolBalance) => {
+    fetchMoneyPoolBalance();
+  }, []);
+
   return (
     <div className="Dashboard">
       <div className="Dashboard-header">
-        {/* DESCRIPTION  */}
-        <div className="description">
-          <h1>Web3 Charity Platform</h1>
-          <h3>CSC2125 Project</h3>
-        </div>
-        {/* BUTTONS - Fetch and Set */}
-        <div className="custom-buttons">
-          <button onClick={fetchGreeting} style={{ backgroundColor: "green" }}>
-            Fetch Greeting
-          </button>
-          <button onClick={setGreeting} style={{ backgroundColor: "red" }}>
-            Set Greeting
-          </button>
-        </div>
-        {/* INPUT TEXT - String  */}
-        <input
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-          placeholder="Set Greeting Message"
-        />
+        <h1>Web3 Charity Platform</h1>
+        <h3>CSC2125 Project</h3>
 
-        {/* Current Value stored on Blockchain */}
-        <h2 className="greeting">Greeting: {currentGreeting}</h2>
+        <div className="money-pool">
+          <h4>Lottery Money Pool</h4>
+          <p>{balance} ETH</p>
+        </div>
+        <div className="donation-section">
+          <input
+            type="text"
+            value={donationAmount}
+            onChange={(e) => setDonationAmount(e.target.value)}
+            placeholder="Enter donation amount in ETH"
+          />
+          <button onClick={handleDonate}>Donate</button>
+          {isLoading && <p>Donating...</p>} {/* Loading indicator */}
+          {!isLoading && donationSuccess && (
+            <div className="success-message">
+              <p>Donation Successful! Thank you for your contribution.</p>
+              {/* You can add an animation or image here */}
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
