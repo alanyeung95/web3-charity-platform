@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { ethers } from "ethers";
 import "./Dashboard.css";
 
@@ -8,12 +8,15 @@ function Dashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const [donationSuccess, setDonationSuccess] = useState(false);
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const provider = useMemo(
+    () => new ethers.providers.Web3Provider(window.ethereum),
+    []
+  );
   //const signer = provider.getSigner();
   const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421"; // Replace with your contract address
   //const contractABI = []; // Replace with your contract ABI
 
-  async function fetchMoneyPoolBalance() {
+  const fetchMoneyPoolBalance = useCallback(async () => {
     try {
       const balanceWei = await provider.getBalance(contractAddress);
       const balanceEther = ethers.utils.formatEther(balanceWei);
@@ -21,7 +24,7 @@ function Dashboard() {
     } catch (error) {
       console.error("Error fetching balance:", error);
     }
-  }
+  }, [provider, contractAddress]);
 
   async function requestAccount() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -66,9 +69,9 @@ function Dashboard() {
     }
   }
 
-  useEffect((fetchMoneyPoolBalance) => {
+  useEffect(() => {
     fetchMoneyPoolBalance();
-  }, []);
+  }, [fetchMoneyPoolBalance]);
 
   return (
     <div className="Dashboard">
