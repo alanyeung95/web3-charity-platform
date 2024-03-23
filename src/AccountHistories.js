@@ -30,6 +30,7 @@ const AccountHistories = () => {
           date: new Date(block.timestamp * 1000).toLocaleString(), // Convert Unix timestamp to date
           type: "Donation",
           amount: `${ethers.utils.formatEther(event.args.amount)} ETH`,
+          transactionHash: event.transactionHash,
         };
       });
 
@@ -55,6 +56,7 @@ const AccountHistories = () => {
             <th>Date</th>
             <th>Type</th>
             <th>Amount</th>
+            <th>Transaction Hash</th>
           </tr>
         </thead>
         <tbody>
@@ -63,6 +65,15 @@ const AccountHistories = () => {
               <td>{entry.date}</td>
               <td>{entry.type}</td>
               <td>{entry.amount}</td>
+              <td>
+                <a
+                  href={`https://sepolia.etherscan.io/tx/${entry.transactionHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {entry.transactionHash}
+                </a>
+              </td>{" "}
             </tr>
           ))}
         </tbody>
