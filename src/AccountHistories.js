@@ -1,13 +1,50 @@
 import React from "react";
+import { useEffect, useState } from "react";
+import { ethers } from "ethers";
 
+import DonationContractABI from "./artifacts/contracts/DonationContract.sol/DonationContract.json";
 import "./AccountHistories.css";
 
 const AccountHistories = () => {
-  // Dummy data for the layout
-  const dummyHistoryData = [
-    { date: "2023-03-25", type: "Donation", amount: "0.5 ETH" },
-    { date: "2023-03-20", type: "Donation", amount: "0.3 ETH" },
-  ];
+  const donationContractAddress = "0x5B24d35Db30CdD402Cb89408228D0719AfE10dc8";
+
+  const [donationHistory, setDonationHistory] = useState([]);
+
+  const fetchDonationHistory = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(
+        donationContractAddress,
+        DonationContractABI.abi,
+        provider
+      );
+
+      const events = await contract.queryFilter(
+        contract.filters.DonationReceived()
+      );
+
+      const historyPromises = events.map(async (event) => {
+        const block = await provider.getBlock(event.blockNumber);
+        return {
+          timestamp: block.timestamp,
+          date: new Date(block.timestamp * 1000).toLocaleString(), // Convert Unix timestamp to date
+          type: "Donation",
+          amount: `${ethers.utils.formatEther(event.args.amount)} ETH`,
+        };
+      });
+
+      const history = await Promise.all(historyPromises);
+      history.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      setDonationHistory(history);
+    } catch (error) {
+      console.error("Error fetching donation history:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDonationHistory();
+  }, []);
 
   return (
     <div className="account-histories">
@@ -21,7 +58,7 @@ const AccountHistories = () => {
           </tr>
         </thead>
         <tbody>
-          {dummyHistoryData.map((entry, index) => (
+          {donationHistory.map((entry, index) => (
             <tr key={index}>
               <td>{entry.date}</td>
               <td>{entry.type}</td>

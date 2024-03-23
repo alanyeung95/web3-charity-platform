@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { ethers } from "ethers";
+
 import "./Dashboard.css";
+import DonationContract from "./artifacts/contracts/DonationContract.sol/DonationContract.json";
 
 function Dashboard() {
   const [balance, setBalance] = useState("0.0000");
@@ -13,7 +15,8 @@ function Dashboard() {
     []
   );
   //const signer = provider.getSigner();
-  const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421"; // Replace with your contract address
+  const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421";
+  const donationContractAddress = "0x5B24d35Db30CdD402Cb89408228D0719AfE10dc8";
   //const contractABI = []; // Replace with your contract ABI
 
   const fetchMoneyPoolBalance = useCallback(async () => {
@@ -31,7 +34,26 @@ function Dashboard() {
   }
 
   const donate = async (signer) => {
+    const contract = new ethers.Contract(
+      donationContractAddress,
+      DonationContract.abi,
+      signer
+    );
+
     try {
+      const tx = await contract.donate({
+        value: ethers.utils.parseEther(donationAmount),
+      });
+      await tx.wait();
+      console.log("Donation successful!");
+      // Optionally, fetch updated data or execute other logic
+    } catch (error) {
+      console.error("Error making the donation:", error);
+    }
+
+    // alternative code to donate money, don't need solidity
+    /*
+        try {
       const tx = await signer.sendTransaction({
         to: contractAddress,
         value: ethers.utils.parseEther("0.001"),
@@ -41,6 +63,7 @@ function Dashboard() {
     } catch (error) {
       console.error("Error making donation:", error);
     }
+    */
   };
 
   async function handleDonate() {

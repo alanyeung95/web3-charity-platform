@@ -569,6 +569,42 @@
       "artifacts": [
         "Math"
       ]
+    },
+    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/DonationContract.sol": {
+      "lastModificationDate": 1711164952917,
+      "contentHash": "6f074938a73b73dff692b83f1d058dbc",
+      "sourceName": "contracts/DonationContract.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "DonationContract"
+      ]
     }
   }
 }
