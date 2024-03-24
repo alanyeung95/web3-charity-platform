@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 
+import { createHelia } from "helia";
+import { json } from "@helia/json";
+
 import "./UserProfile.css";
 
 //import { useStorageUpload } from "@thirdweb-dev/react";
@@ -16,9 +19,17 @@ const UserProfile = () => {
   const handleSelfIntroductionChange = (event) =>
     setSelfIntroduction(event.target.value);
 
-  const handleProfileUpdate = (event) => {
+  const handleProfileUpdate = async (event) => {
     event.preventDefault();
     console.log("Profile Updated:", { username, selfIntroduction });
+
+    // const helia = await createHelia();
+    //const j = json(helia);
+
+    //const myImmutableAddress = await j.add({ hello: "world" });
+
+    // console.log(await j.get(myImmutableAddress));
+    // { hello: 'world' }
   };
 
   const handleAvatarChange = () => {
