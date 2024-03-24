@@ -4,7 +4,16 @@
     padding: 20px;
   }
   
-  .user-profile form > div {
+  .user-profile form,
+  .user-profile .avatar-section {
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .user-profile form > div,
+  .user-profile .avatar-section > div {
     margin-bottom: 15px;
   }
   
@@ -33,5 +42,15 @@
     border: none;
     border-radius: 4px;
     cursor: pointer;
+  }
+  
+  .avatar-section img {
+    display: block;
+    max-width: 200px;
+    margin-bottom: 10px;
+  }
+  
+  .avatar-section button {
+    background-color: green; /* Different color for avatar button */
   }
   

@@ -7,48 +7,50 @@ import "./UserProfile.css";
 const UserProfile = () => {
   const dummyWalletBalance = "1.23 ETH";
   const [username, setUsername] = useState("John Doe");
-
-  // State for photo URL
+  const [selfIntroduction, setSelfIntroduction] = useState("Hi, I'm John Doe.");
   const [photoUrl, setPhotoUrl] = useState(
     "https://avatars.githubusercontent.com/u/45751387?v=4"
   );
 
-  const [selfIntroduction, setSelfIntroduction] = useState("Hi, I'm John Doe.");
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handleSelfIntroductionChange = (event) =>
     setSelfIntroduction(event.target.value);
 
-  const handleSubmit = (event) => {
+  const handleProfileUpdate = (event) => {
     event.preventDefault();
-    console.log("Profile Updated:", { username, photoUrl, selfIntroduction });
-    // Logic to handle profile update goes here
+    console.log("Profile Updated:", { username, selfIntroduction });
+  };
+
+  const handleAvatarChange = () => {
+    console.log("Avatar Updated:", photoUrl);
   };
 
   return (
     <div className="user-profile">
       <h1>User Profile</h1>
-      <form onSubmit={handleSubmit}>
+      <div className="avatar-section">
+        <img
+          src={photoUrl}
+          alt="User"
+          style={{ maxWidth: "200px", marginBottom: "10px" }}
+        />
+
+        <button onClick={handleAvatarChange}>Edit Avatar</button>
+      </div>
+      <form onSubmit={handleProfileUpdate}>
         <div>
-          <label>Username: </label>
+          <label>Username:</label>
           <input type="text" value={username} onChange={handleUsernameChange} />
         </div>
         <div>
-          <label>Photo: </label>
-          <img
-            src={photoUrl}
-            alt="User"
-            style={{ maxWidth: "200px", marginBottom: "10px" }}
-          />
-        </div>
-        <div>
-          <label>Self Introduction: </label>
+          <label>Self Introduction:</label>
           <textarea
             value={selfIntroduction}
             onChange={handleSelfIntroductionChange}
           ></textarea>
         </div>
         <div>
-          <label>Wallet Balance: </label>
+          <label>Wallet Balance:</label>
           <span>{dummyWalletBalance}</span>
         </div>
         <button type="submit">Update Profile</button>
