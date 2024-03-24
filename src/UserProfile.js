@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { ethers } from "ethers";
 
+import UserProfileABI from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
 import "./UserProfile.css";
 
-//import { useStorageUpload } from "@thirdweb-dev/react";
-
 const UserProfile = () => {
-  const dummyWalletBalance = "1.23 ETH";
-  const [username, setUsername] = useState("John Doe");
-  const [selfIntroduction, setSelfIntroduction] = useState("Hi, I'm John Doe.");
+  const contractAddress = "0xa599B74Dd70cD5F15EF0A57C3FE7FFf29BD33586";
+
+  const [username, setUsername] = useState("");
+  const [selfIntroduction, setSelfIntroduction] = useState("");
+  const [walletBalance, setWalletBalance] = useState("0 ETH");
   const [photoUrl, setPhotoUrl] = useState(
     "https://avatars.githubusercontent.com/u/45751387?v=4"
   );
@@ -16,14 +18,63 @@ const UserProfile = () => {
   const handleSelfIntroductionChange = (event) =>
     setSelfIntroduction(event.target.value);
 
-  const handleProfileUpdate = (event) => {
+  const handleProfileUpdate = async (event) => {
     event.preventDefault();
-    console.log("Profile Updated:", { username, selfIntroduction });
+
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      await provider.send("eth_requestAccounts", []);
+      const signer = provider.getSigner();
+      console.log(signer);
+      console.log(UserProfileABI);
+
+      const contract = new ethers.Contract(
+        contractAddress,
+        UserProfileABI.abi,
+        signer
+      );
+
+      try {
+        await contract.setProfile(username, selfIntroduction);
+        console.log("Profile updated on blockchain");
+      } catch (error) {
+        console.error("Error updating profile:", error);
+      }
+    }
+  };
+
+  const fetchProfile = async () => {
+    if (typeof window.ethereum !== "undefined") {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const contract = new ethers.Contract(
+        contractAddress,
+        UserProfileABI.abi,
+        provider
+      );
+      const signerAddress = await provider.getSigner().getAddress();
+
+      try {
+        const profile = await contract.getProfile(signerAddress);
+        setUsername(profile.username);
+        setSelfIntroduction(profile.selfIntroduction);
+
+        const balance = await provider.getBalance(signerAddress);
+        setWalletBalance(
+          parseFloat(ethers.utils.formatEther(balance)).toFixed(4) + " ETH"
+        );
+      } catch (error) {
+        console.error("Error fetching profile:", error);
+      }
+    }
   };
 
   const handleAvatarChange = () => {
     console.log("Avatar Updated:", photoUrl);
   };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   return (
     <div className="user-profile">
@@ -51,7 +102,7 @@ const UserProfile = () => {
         </div>
         <div>
           <label>Wallet Balance:</label>
-          <span>{dummyWalletBalance}</span>
+          <span>{walletBalance}</span>
         </div>
         <button type="submit">Update Profile</button>
       </form>

@@ -605,6 +605,42 @@
       "artifacts": [
         "DonationContract"
       ]
+    },
+    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/UserProfile.sol": {
+      "lastModificationDate": 1711257263554,
+      "contentHash": "6bf3717dd5ea767772d6553bea58aab6",
+      "sourceName": "contracts/UserProfile.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "UserProfile"
+      ]
     }
   }
 }

@@ -1,6 +1,11 @@
 const hre = require("hardhat");
 
 async function main() {
+  const UserProfile = await hre.ethers.getContractFactory("UserProfile");
+  const userProfile = await UserProfile.deploy();
+  await userProfile.deployed();
+  console.log("UserProfile deployed to:", userProfile.address);
+
   const Greeter = await hre.ethers.getContractFactory("Greeter");
   const greeter = await Greeter.deploy("Hello, Hardhat!");
   await greeter.deployed();
