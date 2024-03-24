@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./UserProfile.css";
 
-//import { useStorageUpload } from "@thirdweb-dev/react";
+import { useStorageUpload } from "@thirdweb-dev/react";
 
 const UserProfile = () => {
   const dummyWalletBalance = "1.23 ETH";
