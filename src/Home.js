@@ -6,6 +6,7 @@ import Gambling from "./Gambling";
 import AccountHistories from "./AccountHistories";
 import "./Home.css";
 import App from "./App";
+import UserProfile from "./UserProfile";
 
 function Home() {
   return (
@@ -15,6 +16,9 @@ function Home() {
           <ul>
             <li>
               <Link to="/">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/profile">User Profile</Link>
             </li>
             <li>
               <Link to="/gambling">Gambling</Link>
@@ -29,6 +33,7 @@ function Home() {
         </div>
         <div style={{ flex: 1, padding: "10px" }}>
           <Routes>
+            <Route path="/profile" element={<UserProfile />} />
             <Route path="/gambling" element={<Gambling />} />
             <Route path="/account-histories" element={<AccountHistories />} />
             <Route path="/" element={<Dashboard />} />
