@@ -13,6 +13,7 @@ function Dashboard() {
   const [donationAmount, setDonationAmount] = useState("0.001");
   const [isLoading, setIsLoading] = useState(false);
   const [donationSuccess, setDonationSuccess] = useState(false);
+  const [userProfiles, setUserProfiles] = useState([]);
 
   const provider = useMemo(
     () => new ethers.providers.Web3Provider(window.ethereum),
@@ -24,6 +25,9 @@ function Dashboard() {
   //const contractABI = []; // Replace with your contract ABI
 
   const fetchMoneyPoolBalance = useCallback(async () => {
+    // leave the debug message here so that we know if this function is called more than once or not
+    console.log("fetchMoneyPoolBalance");
+
     try {
       const balanceWei = await provider.getBalance(contractAddress);
       const balanceEther = ethers.utils.formatEther(balanceWei);
@@ -104,9 +108,44 @@ function Dashboard() {
     }
   }
 
+  const fetchUserProfiles = useCallback(async () => {
+    // leave the debug message here so that we know if this function is called more than once or not
+    console.log("fetchUserProfiles");
+
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const userProfileContract = new ethers.Contract(
+        userProfileContractAddress,
+        UserProfileABI.abi,
+        provider
+      );
+
+      const addresses = await userProfileContract.getUserAddresses();
+      const profilePromises = addresses.map(async (address) => {
+        const profile = await userProfileContract.getProfile(address);
+        return {
+          address,
+          username: profile.username,
+          selfIntroduction: profile.selfIntroduction,
+          totalDonations: ethers.utils.formatEther(profile.totalDonations),
+        };
+      });
+
+      const profiles = await Promise.all(profilePromises);
+      profiles.sort(
+        (a, b) => parseFloat(b.totalDonations) - parseFloat(a.totalDonations)
+      );
+
+      setUserProfiles(profiles);
+    } catch (error) {
+      console.error("Error fetching user profiles:", error);
+    }
+  }, [userProfileContractAddress]); // put dependencies here, otherwise this function will get triggered again and again
+
   useEffect(() => {
     fetchMoneyPoolBalance();
-  }, [fetchMoneyPoolBalance]);
+    fetchUserProfiles();
+  }, [fetchMoneyPoolBalance, fetchUserProfiles]);
 
   return (
     <div className="Dashboard">
@@ -118,6 +157,20 @@ function Dashboard() {
           <h4>Lottery Money Pool</h4>
           <p>{balance} ETH</p>
         </div>
+
+        <div className="user-rankings">
+          <h4>User Rankings</h4>
+          <ul>
+            {userProfiles.map((user, index) => (
+              <li key={index}>
+                <p>
+                  {user.username} ({user.address}): {user.totalDonations} ETH
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <div className="donation-section">
           <input
             type="text"
