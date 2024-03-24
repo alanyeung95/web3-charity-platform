@@ -4,12 +4,15 @@ import { ethers } from "ethers";
 import UserProfileABI from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
 import "./UserProfile.css";
 
-const UserProfile = () => {
-  const contractAddress = "0xa599B74Dd70cD5F15EF0A57C3FE7FFf29BD33586";
+//const contractAddress = "0x0cDc6bF230F5bB9DD38CDcfE1d90bf462EbFeb0f";
+const userProfileContractAddress =
+  process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
+const UserProfile = () => {
   const [username, setUsername] = useState("");
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [walletBalance, setWalletBalance] = useState("0 ETH");
+  const [donationAmount, setDonationAmount] = useState("0 ETH");
   const [photoUrl, setPhotoUrl] = useState(
     "https://avatars.githubusercontent.com/u/45751387?v=4"
   );
@@ -29,7 +32,7 @@ const UserProfile = () => {
       console.log(UserProfileABI);
 
       const contract = new ethers.Contract(
-        contractAddress,
+        userProfileContractAddress,
         UserProfileABI.abi,
         signer
       );
@@ -47,7 +50,7 @@ const UserProfile = () => {
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const contract = new ethers.Contract(
-        contractAddress,
+        userProfileContractAddress,
         UserProfileABI.abi,
         provider
       );
@@ -57,6 +60,12 @@ const UserProfile = () => {
         const profile = await contract.getProfile(signerAddress);
         setUsername(profile.username);
         setSelfIntroduction(profile.selfIntroduction);
+
+        setDonationAmount(
+          parseFloat(ethers.utils.formatEther(profile.totalDonations)).toFixed(
+            4
+          ) + " ETH"
+        );
 
         const balance = await provider.getBalance(signerAddress);
         setWalletBalance(
@@ -103,6 +112,10 @@ const UserProfile = () => {
         <div>
           <label>Wallet Balance:</label>
           <span>{walletBalance}</span>
+        </div>
+        <div>
+          <label>Total Donation:</label>
+          <span>{donationAmount}</span>
         </div>
         <button type="submit">Update Profile</button>
       </form>

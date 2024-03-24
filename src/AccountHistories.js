@@ -73,7 +73,7 @@ const AccountHistories = () => {
                 >
                   {entry.transactionHash}
                 </a>
-              </td>{" "}
+              </td>
             </tr>
           ))}
         </tbody>

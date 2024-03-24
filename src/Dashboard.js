@@ -3,6 +3,10 @@ import { ethers } from "ethers";
 
 import "./Dashboard.css";
 import DonationContract from "./artifacts/contracts/DonationContract.sol/DonationContract.json";
+import UserProfileABI from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
+
+const userProfileContractAddress =
+  process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
 function Dashboard() {
   const [balance, setBalance] = useState("0.0000");
@@ -64,6 +68,18 @@ function Dashboard() {
       console.error("Error making donation:", error);
     }
     */
+
+    const userProfileContract = new ethers.Contract(
+      userProfileContractAddress,
+      UserProfileABI.abi,
+      signer
+    );
+
+    const updateTx = await userProfileContract.updateDonation(
+      signer.getAddress(),
+      ethers.utils.parseEther(donationAmount)
+    );
+    await updateTx.wait();
   };
 
   async function handleDonate() {
@@ -71,11 +87,8 @@ function Dashboard() {
 
     if (typeof window.ethereum !== "undefined") {
       await requestAccount();
-
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-
-      console.log(signer);
 
       setIsLoading(true);
       try {
@@ -87,7 +100,6 @@ function Dashboard() {
         setDonationSuccess(false); // Donation failed
       }
       setIsLoading(false);
-
       fetchMoneyPoolBalance(); // refresh the balance
     }
   }

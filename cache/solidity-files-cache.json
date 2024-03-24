@@ -607,8 +607,8 @@
       ]
     },
     "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/UserProfile.sol": {
-      "lastModificationDate": 1711257263554,
-      "contentHash": "6bf3717dd5ea767772d6553bea58aab6",
+      "lastModificationDate": 1711260824418,
+      "contentHash": "153201adbd7bb4f291a304aa2b336e2e",
       "sourceName": "contracts/UserProfile.sol",
       "solcConfig": {
         "version": "0.8.20",

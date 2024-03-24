@@ -1,3 +1,7 @@
+## Environment variable setting
+
+Please reference the `.env.example` and create your own `.env` file
+
 ## Local Solidity Deployment
 
 config your hardhat.config.js, put your Alchemy api key and metamask wallet key
