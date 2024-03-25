@@ -10,11 +10,10 @@ import "./Home.css";
 import App from "./App";
 import UserProfile from "./UserProfile";
 import MintNFT from "./MintNFT";
-import LoginPage from "./LoginPage";
 
 function Home() {
   const buttonText = useRef("Connect Wallet");
-  const { sdk, connected, connecting, provider, chainId, ready } = useSDK();
+  const { sdk, connected, ready } = useSDK();
 
   const toggleWalletConnect = async () => {
     if (connected) {
@@ -25,14 +24,13 @@ function Home() {
   };
 
   useEffect(() => {
-    if (ready) {
-      buttonText.current = connected ? "Disconnect Wallet" : "Connect Wallet";
-    }
+    buttonText.current = connected ? "Disconnect Wallet" : "Connect Wallet";
 
     if (ready && !connected) {
       const connectWallet = async () => {
         await sdk.connect();
       };
+
       connectWallet();
     }
   }, [ready, connected]);
