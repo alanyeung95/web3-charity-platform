@@ -10,6 +10,7 @@ contract DonationContract {
     address payable public moneyPoolAddress;
 
     event DonationReceived(address indexed donor, uint amount);
+    event FundsTransferredToNGO(address indexed ngoAddress, uint amount);
 
     constructor(address payable _moneyPoolAddress) {
         moneyPoolAddress = _moneyPoolAddress;
@@ -35,6 +36,15 @@ contract DonationContract {
         );
 
         payable(to).transfer(0.05 ether);
+    }
+
+    function transferToNGO(address payable ngoAddress) public {
+        require(
+            address(this).balance >= 0.001 ether,
+            "Insufficient funds in contract"
+        );
+        ngoAddress.transfer(0.001 ether);
+        emit FundsTransferredToNGO(ngoAddress, 0.001 ether);
     }
 
     // a function to move all the money to moneyPoolAddress before we discard this contract

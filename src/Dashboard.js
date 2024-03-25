@@ -22,7 +22,6 @@ function Dashboard() {
   );
   //const signer = provider.getSigner();
   const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421";
-  //const donationContractAddress = "0x5B24d35Db30CdD402Cb89408228D0719AfE10dc8";
   const donationContractAddress =
     process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
 
@@ -149,6 +148,7 @@ function Dashboard() {
   }, [userProfileContractAddress]); // put dependencies here, otherwise this function will get triggered again and again
 
   const handleClaimPrize = async () => {
+    console.log("handleClaimPrize");
     if (!userAddress) return;
 
     if (typeof window.ethereum !== "undefined") {
@@ -199,7 +199,6 @@ function Dashboard() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
-    return;
     /*
     const userProfileContract = new ethers.Contract(
       userProfileContractAddress,

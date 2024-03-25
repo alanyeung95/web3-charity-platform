@@ -10,6 +10,7 @@ import "./Home.css";
 import App from "./App";
 import UserProfile from "./UserProfile";
 import MintNFT from "./MintNFT";
+import Governance from "./Governance";
 
 function Home() {
   const buttonText = useRef("Connect Wallet");
@@ -56,6 +57,9 @@ function Home() {
               <Link to="/account-histories">Account Histories</Link>
             </li>
             <li>
+              <Link to="/governance">Governance</Link>
+            </li>
+            <li>
               <Link to="/app">App</Link>
             </li>
             <li className="wallet-button">
@@ -72,6 +76,7 @@ function Home() {
             <Route path="/account-histories" element={<AccountHistories />} />
             <Route path="/" element={<Dashboard />} />
             <Route path="/mint-nft" element={<MintNFT />} />
+            <Route path="/governance" element={<Governance />} />
             <Route path="/app" element={<App />} />
           </Routes>
         </div>
