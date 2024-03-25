@@ -11,6 +11,9 @@ const MintNFT = () => {
   const ethProvider = new ethers.providers.Web3Provider(window.ethereum);
   const contract = new ethers.Contract(contractAddress, MyNFT.abi, ethProvider);
 
+  const [hasNFT, setHasNFT] = useState(false);
+  const { connected, account } = useSDK();
+
   const mintNft = async () => {
     if (!account || account === "") return;
 
@@ -21,9 +24,6 @@ const MintNFT = () => {
     await mintTx.wait();
     console.log(`NFT with ID ${nftId} has been minted to ${account}`);
   };
-
-  const [hasNFT, setHasNFT] = useState(false);
-  const { connected, account } = useSDK();
 
   useEffect(() => {
     if (connected && account) {
