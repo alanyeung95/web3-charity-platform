@@ -4,9 +4,10 @@ import { useSDK } from "@metamask/sdk-react";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import MyNFT from "./artifacts/contracts/TicketNFT.sol/TicketNFT.json";
+
 const MintNFT = () => {
-  const nftId = process.env.NFT_ID ?? "";
-  const contractAddress = process.env.NFT_CONTRACT_ADDRESS ?? "";
+  const nftId = process.env.REACT_APP_NFT_ID ?? "";
+  const contractAddress = process.env.REACT_APP_NFT_CONTRACT_ADDRESS ?? "";
 
   const ethProvider = new ethers.providers.Web3Provider(window.ethereum);
   const contract = new ethers.Contract(contractAddress, MyNFT.abi, ethProvider);
