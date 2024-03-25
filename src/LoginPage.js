@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 // Import ABI Code to interact with smart contract
 import MyNFT from "./artifacts/contracts/TicketNFT.sol/TicketNFT.json";
 
-const nftAddress = "0x20612DD54Eae1fafd0F2654A7D5c5dc142C03552";
+const nftAddress = "0xC93cF38aAE74097824dFeb689d5D9e7E0F88Bb5e";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");
@@ -23,7 +23,7 @@ const LoginPage = () => {
       const contract = new ethers.Contract(nftAddress, MyNFT.abi, provider);
       const signer = provider.getSigner();
       const address = await signer.getAddress();
-      const balance = await contract.balanceOf(address, "999");
+      const balance = await contract.balanceOf(address, "9321");
 
       console.log(balance);
       if (balance > 0) {

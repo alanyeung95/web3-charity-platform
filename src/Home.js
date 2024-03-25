@@ -1,5 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
+import { useSDK } from "@metamask/sdk-react";
+import { useEffect, useRef } from "react";
 
 import Dashboard from "./Dashboard";
 import Gambling from "./Gambling";
@@ -7,15 +9,44 @@ import AccountHistories from "./AccountHistories";
 import "./Home.css";
 import App from "./App";
 import UserProfile from "./UserProfile";
+import MintNFT from "./MintNFT";
+import LoginPage from "./LoginPage";
 
 function Home() {
+  const buttonText = useRef("Connect Wallet");
+  const { sdk, connected, connecting, provider, chainId, ready } = useSDK();
+
+  const toggleWalletConnect = async () => {
+    if (connected) {
+      await sdk.disconnect();
+    } else {
+      await sdk.connect();
+    }
+  };
+
+  useEffect(() => {
+    if (ready) {
+      buttonText.current = connected ? "Disconnect Wallet" : "Connect Wallet";
+    }
+
+    if (ready && !connected) {
+      const connectWallet = async () => {
+        await sdk.connect();
+      };
+      connectWallet();
+    }
+  }, [ready, connected]);
+
   return (
     <Router>
-      <div style={{ display: "flex" }}>
+      <div className="home">
         <div className="nav-bar">
           <ul>
             <li>
               <Link to="/">Dashboard</Link>
+            </li>
+            <li>
+              <Link to="/mint-nft">Mint NFT</Link>
             </li>
             <li>
               <Link to="/profile">User Profile</Link>
@@ -29,14 +60,20 @@ function Home() {
             <li>
               <Link to="/app">App</Link>
             </li>
+            <li className="wallet-button">
+              <button onClick={toggleWalletConnect}>
+                {buttonText.current}
+              </button>
+            </li>
           </ul>
         </div>
-        <div style={{ flex: 1, padding: "10px" }}>
+        <div className="main-content">
           <Routes>
             <Route path="/profile" element={<UserProfile />} />
             <Route path="/gambling" element={<Gambling />} />
             <Route path="/account-histories" element={<AccountHistories />} />
             <Route path="/" element={<Dashboard />} />
+            <Route path="/mint-nft" element={<MintNFT />} />
             <Route path="/app" element={<App />} />
           </Routes>
         </div>

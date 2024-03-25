@@ -1,0 +1,15 @@
+
+.nft-container{
+    margin: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+
+.nft-placeholder {
+    width: 30%
+}

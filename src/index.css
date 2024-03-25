@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.home {
+  display: flex;
+}
+
+.wallet-button {
+  position: absolute;
+  bottom: 0;
+}
+
+.main-content {
+  flex: 1;
+  padding: "10px"
+}
