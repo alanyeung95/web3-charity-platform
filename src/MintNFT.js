@@ -20,8 +20,7 @@ const MintNFT = () => {
     const mintTx = await contract
       .connect(signer)
       .mintFromMarketPlace(account, nftId);
-    const result = await mintTx.wait();
-    console.log(result);
+    await mintTx.wait();
     console.log(`NFT with ID ${nftId} has been minted to ${account}`);
   };
 
@@ -30,7 +29,6 @@ const MintNFT = () => {
 
   useEffect(() => {
     if (connected && account) {
-      console.log("check!");
       const checkNFTOwnership = async () => {
         const balance = await contract.balanceOf(account, "9527");
 
