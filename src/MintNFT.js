@@ -5,13 +5,11 @@ import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import MyNFT from "./artifacts/contracts/TicketNFT.sol/TicketNFT.json";
 const MintNFT = () => {
-  const nftId = "9527";
+  const nftId = process.env.NFT_ID ?? "";
+  const contractAddress = process.env.NFT_CONTRACT_ADDRESS ?? "";
+
   const ethProvider = new ethers.providers.Web3Provider(window.ethereum);
-  const contract = new ethers.Contract(
-    "0xfF13D2d139f1997B66DF4D97A1A6A127A615A9eB",
-    MyNFT.abi,
-    ethProvider
-  );
+  const contract = new ethers.Contract(contractAddress, MyNFT.abi, ethProvider);
 
   const mintNft = async () => {
     if (!account || account === "") return;
@@ -25,12 +23,12 @@ const MintNFT = () => {
   };
 
   const [hasNFT, setHasNFT] = useState(false);
-  const { connected, account, provider } = useSDK();
+  const { connected, account } = useSDK();
 
   useEffect(() => {
     if (connected && account) {
       const checkNFTOwnership = async () => {
-        const balance = await contract.balanceOf(account, "9527");
+        const balance = await contract.balanceOf(account, nftId);
 
         balance > 0 ? setHasNFT(true) : setHasNFT(false);
       };
