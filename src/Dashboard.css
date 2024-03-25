@@ -28,3 +28,28 @@
   border: none;
   cursor: pointer;
 }
+
+.user-rankings table {
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+
+.user-rankings th, .user-rankings td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.user-rankings th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.top-user-message {
+  margin-top: 20px;
+}
+
+.top-user-message p {
+  margin-bottom: 10px;
+}

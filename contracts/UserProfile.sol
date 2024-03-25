@@ -6,6 +6,7 @@ contract UserProfile {
         string username;
         string selfIntroduction;
         uint totalDonations;
+        uint score;
     }
 
     mapping(address => Profile) private profiles;
@@ -20,13 +21,19 @@ contract UserProfile {
         profiles[msg.sender] = Profile(
             _username,
             _selfIntroduction,
-            profiles[msg.sender].totalDonations
+            profiles[msg.sender].totalDonations,
+            profiles[msg.sender].score
         );
     }
 
     function updateDonation(address userAddress, uint amount) public {
         addUserAddressIfNeeded(userAddress);
         profiles[userAddress].totalDonations += amount;
+        profiles[userAddress].score += amount;
+    }
+
+    function resetScore(address userAddress) public {
+        profiles[userAddress].score = 0;
     }
 
     function getProfile(

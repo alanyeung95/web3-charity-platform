@@ -6,7 +6,10 @@ import DonationContractABI from "./artifacts/contracts/DonationContract.sol/Dona
 import "./AccountHistories.css";
 
 const AccountHistories = () => {
-  const donationContractAddress = "0x5B24d35Db30CdD402Cb89408228D0719AfE10dc8";
+  const donationContractAddress =
+    process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
+
+  //const donationContractAddress = "0x5B24d35Db30CdD402Cb89408228D0719AfE10dc8";
 
   const [donationHistory, setDonationHistory] = useState([]);
 
