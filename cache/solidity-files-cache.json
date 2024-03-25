@@ -571,8 +571,8 @@
       ]
     },
     "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/DonationContract.sol": {
-      "lastModificationDate": 1711164952917,
-      "contentHash": "6f074938a73b73dff692b83f1d058dbc",
+      "lastModificationDate": 1711318967930,
+      "contentHash": "0ea1770cfd513121a28697210a374ae6",
       "sourceName": "contracts/DonationContract.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -607,8 +607,8 @@
       ]
     },
     "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/UserProfile.sol": {
-      "lastModificationDate": 1711294942694,
-      "contentHash": "bbe5ec400b2927bff3413c86a7f4559f",
+      "lastModificationDate": 1711324672990,
+      "contentHash": "68593fa459bfd0785962e568fb9532a6",
       "sourceName": "contracts/UserProfile.sol",
       "solcConfig": {
         "version": "0.8.20",

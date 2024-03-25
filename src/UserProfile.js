@@ -13,6 +13,7 @@ const UserProfile = () => {
   const [selfIntroduction, setSelfIntroduction] = useState("");
   const [walletBalance, setWalletBalance] = useState("0 ETH");
   const [donationAmount, setDonationAmount] = useState("0 ETH");
+  const [score, setScore] = useState("0 ETH");
   const [photoUrl, setPhotoUrl] = useState(
     "https://avatars.githubusercontent.com/u/45751387?v=4"
   );
@@ -60,7 +61,10 @@ const UserProfile = () => {
         const profile = await contract.getProfile(signerAddress);
         setUsername(profile.username);
         setSelfIntroduction(profile.selfIntroduction);
-
+        setScore(
+          parseFloat(ethers.utils.formatEther(profile.score)).toFixed(4) +
+            " ETH"
+        );
         setDonationAmount(
           parseFloat(ethers.utils.formatEther(profile.totalDonations)).toFixed(
             4
@@ -116,6 +120,10 @@ const UserProfile = () => {
         <div>
           <label>Total Donation:</label>
           <span>{donationAmount}</span>
+        </div>
+        <div>
+          <label>Score:</label>
+          <span>{score}</span> {/* Display the score */}
         </div>
         <button type="submit">Update Profile</button>
       </form>
