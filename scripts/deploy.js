@@ -1,6 +1,20 @@
 const hre = require("hardhat");
 
 async function main() {
+  /*
+  const Governance = await hre.ethers.getContractFactory("Governance");
+  const governance = await Governance.deploy();
+  await governance.deployed();
+  console.log("Governance deployed to:", governance.address);
+*/
+
+  /*
+  const UserProfile = await hre.ethers.getContractFactory("UserProfile");
+  const userProfile = await UserProfile.deploy();
+  await userProfile.deployed();
+  console.log("UserProfile deployed to:", userProfile.address);
+*/
+  /*
   const Greeter = await hre.ethers.getContractFactory("Greeter");
   const greeter = await Greeter.deploy("Hello, Hardhat!");
   await greeter.deployed();
@@ -10,6 +24,7 @@ async function main() {
   const ticketNFT = await TicketNFT.deploy("testing nft");
   await ticketNFT.deployed();
   console.log("TicketNFT deployed to:", ticketNFT.address);
+*/
 
   const DonationContract = await hre.ethers.getContractFactory(
     "DonationContract"

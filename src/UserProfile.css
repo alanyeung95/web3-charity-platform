@@ -1,0 +1,56 @@
+.user-profile {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .user-profile form,
+  .user-profile .avatar-section {
+    margin-bottom: 30px;
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 8px;
+  }
+  
+  .user-profile form > div,
+  .user-profile .avatar-section > div {
+    margin-bottom: 15px;
+  }
+  
+  .user-profile label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .user-profile input[type="text"],
+  .user-profile textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .user-profile textarea {
+    height: 100px;
+    resize: vertical;
+  }
+  
+  .user-profile button {
+    padding: 10px 15px;
+    background-color: blue;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .avatar-section img {
+    display: block;
+    max-width: 200px;
+    margin-bottom: 10px;
+  }
+  
+  .avatar-section button {
+    background-color: green; /* Different color for avatar button */
+  }
+  

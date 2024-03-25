@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@metamask/sdk-react": "^0.18.0",
     "@openzeppelin/contracts": "^5.0.1",
     "@testing-library/jest-dom": "^5.16.2",
     "@testing-library/react": "^14.2.2",

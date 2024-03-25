@@ -30,3 +30,12 @@
     color: #fff;
   }
   
+  button {
+    padding: 10px 15px;
+    border-radius: 4px;
+    background-color: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  

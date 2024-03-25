@@ -22,13 +22,15 @@ module.exports = {
     artifacts: "./src/artifacts",
   },
   networks: {
-    // hardhat: {
-    //   chainId: 1337,
-    // }
-
-    sepolia: {
-      url: "https://eth-sepolia.g.alchemy.com/v2/Ura5v_TEko6jXcA1SHmb0BRphC3SYVgO",
-      accounts: [`0x09c6468104b687cb99280013221a9251c2c23fd72598508b648c5376a2e205e2`]
+    localhost: {
+      url: "http://127.0.0.1:8545",
+      accounts: [
+        `0xdf57089febbacf7ba0bc227dafbffa9fc08a93fdc68e1e42411a14efcf23656e`,
+      ],
     },
+    /*hardhat: {
+      chainId: 1337,
+    },
+    */
   },
 };
