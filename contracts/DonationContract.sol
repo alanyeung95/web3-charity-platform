@@ -11,17 +11,13 @@ contract DonationContract {
 
     event DonationReceived(address indexed donor, uint amount);
     event FundsTransferredToNGO(address indexed ngoAddress, uint amount);
+    event FundsTransferredToUser(address indexed userAddress, uint amount);
 
     constructor(address payable _moneyPoolAddress) {
         moneyPoolAddress = _moneyPoolAddress;
     }
 
-    function donate() external payable {
-        require(msg.value > 0, "Donation must be greater than 0");
-        moneyPoolAddress.transfer(msg.value); // forward the donation to the money pool
-        emit DonationReceived(msg.sender, msg.value);
-    }
-
+    // user to money pool
     function donateV2() external payable {
         //require(msg.value > 0, "Donation must be greater than 0");
         // Funds are now kept within the contract
@@ -45,6 +41,19 @@ contract DonationContract {
         );
         ngoAddress.transfer(0.001 ether);
         emit FundsTransferredToNGO(ngoAddress, 0.001 ether);
+    }
+
+    // transferToUser
+    function transferToUser(address payable userAddress, uint amount) public {
+        uint amountInWei = amount * 1 ether;
+
+        require(
+            address(this).balance >= amountInWei,
+            "Insufficient funds in contract"
+        );
+
+        userAddress.transfer(amountInWei);
+        emit FundsTransferredToUser(userAddress, amountInWei);
     }
 
     // a function to move all the money to moneyPoolAddress before we discard this contract
