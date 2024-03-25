@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 
 import Dashboard from "./Dashboard";
-import Gambling from "./Gambling";
+import GamblingComponent from "./Gambling";
 import AccountHistories from "./AccountHistories";
 import "./Home.css";
 import App from "./App";
@@ -29,7 +29,7 @@ function Home() {
         </div>
         <div style={{ flex: 1, padding: "10px" }}>
           <Routes>
-            <Route path="/gambling" element={<Gambling />} />
+            <Route path="/gambling" element={<GamblingComponent />} />
             <Route path="/account-histories" element={<AccountHistories />} />
             <Route path="/" element={<Dashboard />} />
             <Route path="/app" element={<App />} />

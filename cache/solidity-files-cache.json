@@ -1,9 +1,45 @@
 {
   "_format": "hh-sol-cache-2",
   "files": {
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/Greeter.sol": {
-      "lastModificationDate": 1710829856695,
-      "contentHash": "7bd734238644081d34b4508d40e84a39",
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\contracts\\DonationContract.sol": {
+      "lastModificationDate": 1711211494971,
+      "contentHash": "8f4745116c297eac154d039aaceac3f3",
+      "sourceName": "contracts/DonationContract.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "DonationContract"
+      ]
+    },
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\contracts\\Greeter.sol": {
+      "lastModificationDate": 1710983022502,
+      "contentHash": "22b18122d958ee6c4a6e5f83007f132d",
       "sourceName": "contracts/Greeter.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -40,8 +76,8 @@
         "Greeter"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/hardhat/console.sol": {
-      "lastModificationDate": 1710827907177,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\hardhat\\console.sol": {
+      "lastModificationDate": 1710983210597,
       "contentHash": "896f68942c3a20e9ae3c3c5bfd3add54",
       "sourceName": "hardhat/console.sol",
       "solcConfig": {
@@ -76,9 +112,121 @@
         "console"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/TicketNFT.sol": {
-      "lastModificationDate": 1710948497560,
-      "contentHash": "1ab4b93580ab52c7201a71d070ab98fd",
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\contracts\\interfaces\\ITicketNFT.sol": {
+      "lastModificationDate": 1710984971813,
+      "contentHash": "070ad24bb9c68490039fe9480862e073",
+      "sourceName": "contracts/interfaces/ITicketNFT.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "@openzeppelin/contracts/token/ERC1155/IERC1155.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "ITicketNFT"
+      ]
+    },
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155.sol": {
+      "lastModificationDate": 1710983206562,
+      "contentHash": "d70aa5aeb17749b65a9bde4cce2bd72c",
+      "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "../../utils/introspection/IERC165.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IERC1155"
+      ]
+    },
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\IERC165.sol": {
+      "lastModificationDate": 1710983206653,
+      "contentHash": "de0163561b417b800d01749cbbe2147e",
+      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IERC165"
+      ]
+    },
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\contracts\\TicketNFT.sol": {
+      "lastModificationDate": 1710983022502,
+      "contentHash": "67721a2c6d1bbb23b2a7b5552d37c758",
       "sourceName": "contracts/TicketNFT.sol",
       "solcConfig": {
         "version": "0.8.20",
@@ -115,46 +263,8 @@
         "TicketNFT"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/interfaces/ITicketNFT.sol": {
-      "lastModificationDate": 1710948497551,
-      "contentHash": "6384097c9f70c3c82cdb7ee700f9abc2",
-      "sourceName": "contracts/interfaces/ITicketNFT.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "@openzeppelin/contracts/token/ERC1155/IERC1155.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "ITicketNFT"
-      ]
-    },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/token/ERC1155/ERC1155.sol": {
-      "lastModificationDate": 1710829752072,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\ERC1155.sol": {
+      "lastModificationDate": 1710983205921,
       "contentHash": "917e6b867a0e67cd81ca4eb34336ca35",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/ERC1155.sol",
       "solcConfig": {
@@ -197,82 +307,8 @@
         "ERC1155"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/token/ERC1155/IERC1155.sol": {
-      "lastModificationDate": 1710829753062,
-      "contentHash": "d70aa5aeb17749b65a9bde4cce2bd72c",
-      "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [
-        "../../utils/introspection/IERC165.sol"
-      ],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IERC1155"
-      ]
-    },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/utils/introspection/IERC165.sol": {
-      "lastModificationDate": 1710829753235,
-      "contentHash": "de0163561b417b800d01749cbbe2147e",
-      "sourceName": "@openzeppelin/contracts/utils/introspection/IERC165.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IERC165"
-      ]
-    },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/utils/Context.sol": {
-      "lastModificationDate": 1710829751802,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\utils\\Context.sol": {
+      "lastModificationDate": 1710983205759,
       "contentHash": "67bfbc07588eb8683b3fd8f6f909563e",
       "sourceName": "@openzeppelin/contracts/utils/Context.sol",
       "solcConfig": {
@@ -307,46 +343,8 @@
         "Context"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/interfaces/draft-IERC6093.sol": {
-      "lastModificationDate": 1710829751890,
-      "contentHash": "4aefc698f77ecbace7f401257dfe182d",
-      "sourceName": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol",
-      "solcConfig": {
-        "version": "0.8.20",
-        "settings": {
-          "evmVersion": "paris",
-          "optimizer": {
-            "enabled": false,
-            "runs": 200
-          },
-          "outputSelection": {
-            "*": {
-              "*": [
-                "abi",
-                "evm.bytecode",
-                "evm.deployedBytecode",
-                "evm.methodIdentifiers",
-                "metadata"
-              ],
-              "": [
-                "ast"
-              ]
-            }
-          }
-        }
-      },
-      "imports": [],
-      "versionPragmas": [
-        "^0.8.20"
-      ],
-      "artifacts": [
-        "IERC1155Errors",
-        "IERC20Errors",
-        "IERC721Errors"
-      ]
-    },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/utils/Arrays.sol": {
-      "lastModificationDate": 1710829751644,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\utils\\Arrays.sol": {
+      "lastModificationDate": 1710983205627,
       "contentHash": "fabe6fe8d403b4f72dec1dc585ab1c7a",
       "sourceName": "@openzeppelin/contracts/utils/Arrays.sol",
       "solcConfig": {
@@ -384,8 +382,46 @@
         "Arrays"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/utils/introspection/ERC165.sol": {
-      "lastModificationDate": 1710829752209,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\interfaces\\draft-IERC6093.sol": {
+      "lastModificationDate": 1710983205826,
+      "contentHash": "4aefc698f77ecbace7f401257dfe182d",
+      "sourceName": "@openzeppelin/contracts/interfaces/draft-IERC6093.sol",
+      "solcConfig": {
+        "version": "0.8.20",
+        "settings": {
+          "evmVersion": "paris",
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [],
+      "versionPragmas": [
+        "^0.8.20"
+      ],
+      "artifacts": [
+        "IERC1155Errors",
+        "IERC20Errors",
+        "IERC721Errors"
+      ]
+    },
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\utils\\introspection\\ERC165.sol": {
+      "lastModificationDate": 1710983206011,
       "contentHash": "6a55c353946e471d9792965d06208295",
       "sourceName": "@openzeppelin/contracts/utils/introspection/ERC165.sol",
       "solcConfig": {
@@ -422,8 +458,8 @@
         "ERC165"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol": {
-      "lastModificationDate": 1710829753155,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\IERC1155Receiver.sol": {
+      "lastModificationDate": 1710983206601,
       "contentHash": "d14616defa6d417fafa47e416e3cec73",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol",
       "solcConfig": {
@@ -460,8 +496,8 @@
         "IERC1155Receiver"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol": {
-      "lastModificationDate": 1710829753087,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\token\\ERC1155\\extensions\\IERC1155MetadataURI.sol": {
+      "lastModificationDate": 1710983206581,
       "contentHash": "96903941ac1966aa14e08bd4ab3c264e",
       "sourceName": "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol",
       "solcConfig": {
@@ -498,8 +534,8 @@
         "IERC1155MetadataURI"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/utils/StorageSlot.sol": {
-      "lastModificationDate": 1710829753650,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\utils\\StorageSlot.sol": {
+      "lastModificationDate": 1710983207151,
       "contentHash": "08cbccfefa284405c12b4bfa8c8c9c2b",
       "sourceName": "@openzeppelin/contracts/utils/StorageSlot.sol",
       "solcConfig": {
@@ -534,8 +570,8 @@
         "StorageSlot"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/node_modules/@openzeppelin/contracts/utils/math/Math.sol": {
-      "lastModificationDate": 1710829753522,
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\node_modules\\@openzeppelin\\contracts\\utils\\math\\Math.sol": {
+      "lastModificationDate": 1710983206965,
       "contentHash": "718fa8ba0ff269c92e364c1429d9de57",
       "sourceName": "@openzeppelin/contracts/utils/math/Math.sol",
       "solcConfig": {
@@ -570,10 +606,10 @@
         "Math"
       ]
     },
-    "/Users/alan/Documents/git/csc2125/web3-charity-platform/contracts/DonationContract.sol": {
-      "lastModificationDate": 1711164952917,
-      "contentHash": "6f074938a73b73dff692b83f1d058dbc",
-      "sourceName": "contracts/DonationContract.sol",
+    "C:\\Users\\dell\\Desktop\\2125 project\\web3-charity-platform\\contracts\\Gambling.sol": {
+      "lastModificationDate": 1711402427191,
+      "contentHash": "dd02f727918b3d8a5919f403b9e65a36",
+      "sourceName": "contracts/Gambling.sol",
       "solcConfig": {
         "version": "0.8.20",
         "settings": {
@@ -598,12 +634,14 @@
           }
         }
       },
-      "imports": [],
+      "imports": [
+        "hardhat/console.sol"
+      ],
       "versionPragmas": [
-        "^0.8.20"
+        "^0.8.0"
       ],
       "artifacts": [
-        "DonationContract"
+        "Gambling"
       ]
     }
   }
