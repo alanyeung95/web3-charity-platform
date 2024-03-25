@@ -8,7 +8,7 @@ import "./App.css";
 
 // The contract address
 //const greeterAddress = "0x49A33C745cC8a7080646FBB2362fFFf494c0efF4";
-const greeterAddress = "0x389a4186D6f32cd3D1b534773506AF37687DEaf5";
+const greeterAddress = "0xc7B6ccff79bAeF2F6E8696D36B8c44Ca15a9c619";
 
 function App() {
   // Property Variables
