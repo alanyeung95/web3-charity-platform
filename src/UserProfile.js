@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
 
+import { create } from "@web3-storage/w3up-client";
+
 import UserProfileABI from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
 import "./UserProfile.css";
 
@@ -81,8 +83,12 @@ const UserProfile = () => {
     }
   };
 
-  const handleAvatarChange = () => {
+  const handleAvatarChange = async () => {
     console.log("Avatar Updated:", photoUrl);
+    return;
+    const client = await create();
+    await client.login("-----");
+    await client.setCurrentSpace("-----");
   };
 
   useEffect(() => {
