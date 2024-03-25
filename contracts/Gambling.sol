@@ -19,7 +19,7 @@ contract Gambling {
     // address payable public moneyPool;
     uint public operationCost;
 
-    constructor(uint _revealTime, address payable _money_pool) {
+    constructor(uint _revealTime) {
         owner = msg.sender;
         revealTime = _revealTime;
         // moneyPool = _money_pool;
@@ -73,6 +73,7 @@ contract Gambling {
         );
         uint8 result = 3;
         bool isCorrect = predictions[msg.sender].num == result;
+        //users guess the right result
         if (isCorrect) {
             uint256 reward = (balances[msg.sender] * 4) / 10;
             require(reward < moneyPool, "not enough amount in money pool");
@@ -82,7 +83,9 @@ contract Gambling {
             );
             balances[msg.sender] = balances[msg.sender] + reward;
             // moneyPool.transferToTPlayer();
-        } else {
+        }
+        // users guess the worng result
+        else {
             uint256 loss = (balances[msg.sender] * 8) / 10;
             // moneyPool.transfer(loss);
             uint256 cost = balances[msg.sender] - loss;
