@@ -7,6 +7,7 @@ contract UserProfile {
         string selfIntroduction;
         uint totalDonations;
         uint score;
+        string photoURL;
     }
 
     mapping(address => Profile) private profiles;
@@ -15,14 +16,16 @@ contract UserProfile {
 
     function setProfile(
         string memory _username,
-        string memory _selfIntroduction
+        string memory _selfIntroduction,
+        string memory _photoURL
     ) public {
         addUserAddressIfNeeded(msg.sender);
         profiles[msg.sender] = Profile(
             _username,
             _selfIntroduction,
             profiles[msg.sender].totalDonations,
-            profiles[msg.sender].score
+            profiles[msg.sender].score,
+            _photoURL
         );
     }
 
@@ -34,6 +37,10 @@ contract UserProfile {
 
     function resetScore(address userAddress) public {
         profiles[userAddress].score = 0;
+    }
+
+    function setPhotoURL(address userAddress, string memory _photoURL) public {
+        profiles[userAddress].photoURL = _photoURL;
     }
 
     function getProfile(

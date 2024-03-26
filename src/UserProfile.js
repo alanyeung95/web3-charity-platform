@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { ethers } from "ethers";
+import axios from "axios";
 
 import UserProfileABI from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
 import "./UserProfile.css";
 
-//const contractAddress = "0x0cDc6bF230F5bB9DD38CDcfE1d90bf462EbFeb0f";
 const userProfileContractAddress =
   process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
@@ -15,8 +15,9 @@ const UserProfile = () => {
   const [donationAmount, setDonationAmount] = useState("0 ETH");
   const [score, setScore] = useState("0 ETH");
   const [photoUrl, setPhotoUrl] = useState(
-    "https://avatars.githubusercontent.com/u/45751387?v=4"
+    "https://bafybeigddt6osaj5fx3qszhs74tjv46yns7jbe3jwxga3frvhbzjoyc5gm.ipfs.w3s.link/avatar.png"
   );
+  const [file, setFile] = useState(null);
 
   const handleUsernameChange = (event) => setUsername(event.target.value);
   const handleSelfIntroductionChange = (event) =>
@@ -39,7 +40,7 @@ const UserProfile = () => {
       );
 
       try {
-        await contract.setProfile(username, selfIntroduction);
+        await contract.setProfile(username, selfIntroduction, photoUrl);
         console.log("Profile updated on blockchain");
       } catch (error) {
         console.error("Error updating profile:", error);
@@ -61,6 +62,7 @@ const UserProfile = () => {
         const profile = await contract.getProfile(signerAddress);
         setUsername(profile.username);
         setSelfIntroduction(profile.selfIntroduction);
+        setPhotoUrl(profile.photoURL);
         setScore(
           parseFloat(ethers.utils.formatEther(profile.score)).toFixed(4) +
             " ETH"
@@ -81,8 +83,41 @@ const UserProfile = () => {
     }
   };
 
-  const handleAvatarChange = () => {
-    console.log("Avatar Updated:", photoUrl);
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+  };
+
+  const handleUpload = async () => {
+    if (!file) {
+      alert("Please select a file to upload");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:3001/upload",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      console.log("Uploaded file CID:", response.data.cid);
+      alert("File uploaded successfully");
+
+      console.log(response.data.cid);
+      const newURL =
+        "https://" + response.data.cid + ".ipfs.w3s.link/avatar.png";
+      setPhotoUrl(newURL);
+      console.log(newURL);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Error uploading file");
+    }
   };
 
   useEffect(() => {
@@ -92,6 +127,7 @@ const UserProfile = () => {
   return (
     <div className="user-profile">
       <h1>User Profile</h1>
+
       <div className="avatar-section">
         <img
           src={photoUrl}
@@ -99,7 +135,8 @@ const UserProfile = () => {
           style={{ maxWidth: "200px", marginBottom: "10px" }}
         />
 
-        <button onClick={handleAvatarChange}>Edit Avatar</button>
+        <input type="file" onChange={handleFileChange} />
+        <button onClick={handleUpload}>Upload Image</button>
       </div>
       <form onSubmit={handleProfileUpdate}>
         <div>
