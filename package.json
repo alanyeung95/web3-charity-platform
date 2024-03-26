@@ -9,6 +9,7 @@
     "@testing-library/react": "^14.2.2",
     "@testing-library/user-event": "^13.5.0",
     "@web3-storage/w3up-client": "^12.5.0",
+    "axios": "^1.6.8",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-router-dom": "^6.22.3",
