@@ -27,3 +27,4 @@ yarn-error.log*
 # solidity
 cache/*
 /src/artifacts
+hardhat.config.js
