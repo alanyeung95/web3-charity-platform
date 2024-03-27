@@ -45,9 +45,6 @@ function Home() {
             <li>
               <Link to="/">Dashboard</Link>
             </li>
-            {/* <li>
-              <Link to="/mint-nft">Mint NFT</Link>
-            </li> */}
             <li>
               <Link to="/profile">User Profile</Link>
             </li>
