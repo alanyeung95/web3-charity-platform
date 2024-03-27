@@ -4,7 +4,7 @@ import { useSDK } from "@metamask/sdk-react";
 import { useEffect, useRef } from "react";
 
 import Dashboard from "./Dashboard";
-import Gambling from "./Gambling";
+import GamblingComponent from "./Gambling";
 import AccountHistories from "./AccountHistories";
 import "./Home.css";
 import App from "./App";
@@ -69,8 +69,8 @@ function Home() {
         </div>
         <div className="main-content">
           <Routes>
+            <Route path="/gambling" element={<GamblingComponent />} />
             <Route path="/profile" element={<UserProfile />} />
-            <Route path="/gambling" element={<Gambling />} />
             <Route path="/account-histories" element={<AccountHistories />} />
             <Route path="/" element={<Dashboard />} />
             {/* to-do: we should remove this route after demo */}
