@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "./ErrorPage.css";
 
 const ErrorPage = () => {
-  const mintLink = "3dd4b65f-f1f2-4cb4-bc4d-f115b87016fd";
+  const mintLink = process.env.REACT_APP_SECRET_MINT_NFT_LINK;
 
   return (
     <div className="error-page">
