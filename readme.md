@@ -29,3 +29,10 @@ npx hardhat run scripts/mint-nft.js --network sepolia
 ```
 npm run start
 ```
+
+## Start backend Server
+```
+cd backend
+node server.js
+```
+
