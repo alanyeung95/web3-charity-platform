@@ -45,15 +45,15 @@ contract DonationContract {
 
     // transferToUser
     function transferToUser(address payable userAddress, uint amount) public {
-        uint amountInWei = amount * 1 ether;
+        // uint amountInWei = amount * 1 ether;
 
         require(
-            address(this).balance >= amountInWei,
+            address(this).balance >= amount,
             "Insufficient funds in contract"
         );
 
-        userAddress.transfer(amountInWei);
-        emit FundsTransferredToUser(userAddress, amountInWei);
+        userAddress.transfer(amount);
+        emit FundsTransferredToUser(userAddress, amount);
     }
 
     // a function to move all the money to moneyPoolAddress before we discard this contract

@@ -4,8 +4,6 @@ import "hardhat/console.sol";
 import "./DonationContract.sol";
 import "./Greeter.sol";
 
-// import "hardhat/donationContract.sol";
-
 contract Gambling {
     address private owner;
 
@@ -41,33 +39,23 @@ contract Gambling {
         console.log("Deploying the Gambling contract. /n Owner: ", owner);
     }
 
-    function addMoneyToContract() public payable {
-        require(msg.value > 0, "Deposit amount must be greater than 0");
-    }
-
-    function deposit() external payable {
+    function depositAndPredict(uint8 _pre) external payable {
         require(msg.value > 0, "Deposit value must be greater than 0");
         require(
             balances[msg.sender] + msg.value >= balances[msg.sender],
             "Integer overflow"
         );
-        balances[msg.sender] += msg.value;
-    }
-
-    function withdraw(uint _amount) public {
-        require(_amount > 0, "Withdrawal amount must be greater than 0");
-        require(balances[msg.sender] >= _amount, "Insufficient balance");
-        balances[msg.sender] -= _amount;
-        payable(msg.sender).transfer(_amount);
-    }
-
-    function predict(uint8 _pre) public {
         require(_pre == 1 || _pre == 2 || _pre == 3, "invalid prediction");
-        require(balances[msg.sender] > 0, "unsifficient amount.");
-        require(
-            predictions[msg.sender].num == 0,
-            "You have already started your prediction."
-        );
+        // require(
+        //     predictions[msg.sender].num == 0,
+        //     "You have already started your prediction."
+        // );
+        balances[msg.sender] += msg.value;
+        moneyPoolInstance.donateV2{value: msg.value}();
+        predict(_pre);
+    }
+
+    function predict(uint8 _pre) internal {
         int256 latestPrice = greeterInstance.getLatestPrice();
         predictions[msg.sender] = Prediction(
             _pre,
@@ -77,7 +65,6 @@ contract Gambling {
     }
 
     function revealResult() public returns (uint256, int256, bool) {
-        //wait for 10 mins
         require(
             predictions[msg.sender].time != 0,
             "You haven't started the prediction yet."
@@ -98,28 +85,25 @@ contract Gambling {
         }
         bool isCorrect = predictions[msg.sender].num == result;
         uint256 reward = 0;
-        // users guess the worng result, donate the money to money pool
-        if (!isCorrect) {
-            uint256 loss = (balances[msg.sender] * 8) / 10;
-            moneyPoolInstance.donateV2{value: loss}();
-            uint256 cost = balances[msg.sender] - loss;
-            operationCost += cost;
-            balances[msg.sender] = 0;
-        }
-        //users guess the right result, front-end calls transferToUser
-        else {
+        uint256 cost = 0;
+        //if the user gets the right result, send reward to the user, send the cost to this contract.
+        if (isCorrect) {
             reward = (balances[msg.sender] * 4) / 10;
+            cost = (balances[msg.sender] * 2) / 10;
             require(
-                reward < getMoneyPoolBalance(),
+                (reward + cost) < getMoneyPoolBalance(),
                 "not enough amount in money pool"
             );
             require(
                 balances[msg.sender] + reward >= balances[msg.sender],
                 "Integer overflow"
             );
+            //
+            // moneyPoolInstance.transferToUser(payable(address(this)), cost);
+            operationCost += cost;
             moneyPoolInstance.transferToUser(payable(msg.sender), reward);
-            balances[msg.sender] = balances[msg.sender] + reward;
         }
+        balances[msg.sender] = 0;
         predictions[msg.sender].num = 0;
         predictions[msg.sender].time = 0;
         return (reward, pPrice, isCorrect);
@@ -132,4 +116,11 @@ contract Gambling {
     function getUserBalance() external view returns (uint256) {
         return balances[msg.sender];
     }
+
+    // function withdraw(uint _amount) public {
+    //     require(_amount > 0, "Withdrawal amount must be greater than 0");
+    //     require(balances[msg.sender] >= _amount, "Insufficient balance");
+    //     balances[msg.sender] -= _amount;
+    //     payable(msg.sender).transfer(_amount);
+    // }
 }
