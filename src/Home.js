@@ -13,6 +13,7 @@ import MintNFT from "./MintNFT";
 import Governance from "./Governance";
 
 function Home() {
+  const secretUUID = process.env.REACT_APP_SECRET_MINT_NFT_LINK;
   const buttonText = useRef("Connect Wallet");
   const { sdk, connected, ready } = useSDK();
 
@@ -44,9 +45,9 @@ function Home() {
             <li>
               <Link to="/">Dashboard</Link>
             </li>
-            <li>
+            {/* <li>
               <Link to="/mint-nft">Mint NFT</Link>
-            </li>
+            </li> */}
             <li>
               <Link to="/profile">User Profile</Link>
             </li>
@@ -75,7 +76,8 @@ function Home() {
             <Route path="/gambling" element={<Gambling />} />
             <Route path="/account-histories" element={<AccountHistories />} />
             <Route path="/" element={<Dashboard />} />
-            <Route path="/mint-nft" element={<MintNFT />} />
+            {/* to-do: we should remove this route after demo */}
+            <Route path={`/${secretUUID}`} element={<MintNFT />} />
             <Route path="/governance" element={<Governance />} />
             <Route path="/app" element={<App />} />
           </Routes>
