@@ -13,7 +13,7 @@ const MintNFT = () => {
   const contract = new ethers.Contract(contractAddress, MyNFT.abi, ethProvider);
 
   const [hasNFT, setHasNFT] = useState(false);
-  const { connected, account } = useSDK();
+  const { account } = useSDK();
 
   const mintNft = async () => {
     if (!account || account === "") return;
@@ -27,7 +27,7 @@ const MintNFT = () => {
   };
 
   useEffect(() => {
-    if (connected && account) {
+    if (account) {
       const checkNFTOwnership = async () => {
         const balance = await contract.balanceOf(account, nftId);
 
