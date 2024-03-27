@@ -35,6 +35,15 @@ async function main() {
   await donationContract.deployed();
   console.log("DonationContract deployed to:", donationContract.address);
 
+  //deploy gambling contract
+  const GamblingContract = await hre.ethers.getContractFactory(
+    "Gambling"
+  );
+  const donationContractAddress = donationContract.address;
+  const greeterAddress = process.env.REACT_APP_GREETER_ADDRESS;
+  const gambling = await GamblingContract.deploy(donationContractAddress, greeterAddress, 3);
+  await gambling.deployed();
+
   /*
   // Deploy SampleCoin contract
   const SampleCoin = await hre.ethers.getContractFactory("SampleCoin");

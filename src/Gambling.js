@@ -6,8 +6,8 @@ import Gambling from "./artifacts/contracts/Gambling.sol/Gambling.json";
 import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
 import "./Gambling.css";
 
-const gamblingAddress = "0x4c90E259A2363F0027d6456466a18B2C76a3691B";
-const greeterAddress = "0xc7B6ccff79bAeF2F6E8696D36B8c44Ca15a9c619";
+const gamblingAddress = process.env.REACT_APP_GAMBLING_ADDRESS;
+const greeterAddress = process.env.REACT_APP_GREETER_ADDRESS;
 
 const GamblingComponent = () => {
 
