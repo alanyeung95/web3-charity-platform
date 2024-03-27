@@ -12,10 +12,9 @@ root.render(
     debug={false}
     sdkOptions={{
       dappMetadata: {
-        name: "Example React Dapp",
+        name: "Web3 Charity Platform",
         url: window.location.href,
       },
-      // Other options
     }}
   >
     <Home />
