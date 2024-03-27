@@ -64,7 +64,7 @@ contract Gambling {
         );
     }
 
-    function revealResult() public returns (uint256, int256, bool) {
+    function revealResult() public {
         require(
             predictions[msg.sender].time != 0,
             "You haven't started the prediction yet."
@@ -84,12 +84,10 @@ contract Gambling {
             result = 2;
         }
         bool isCorrect = predictions[msg.sender].num == result;
-        uint256 reward = 0;
-        uint256 cost = 0;
         //if the user gets the right result, send reward to the user, send the cost to this contract.
         if (isCorrect) {
-            reward = (balances[msg.sender] * 4) / 10;
-            cost = (balances[msg.sender] * 2) / 10;
+            uint256 reward = (balances[msg.sender] * 4) / 10;
+            uint256 cost = (balances[msg.sender] * 2) / 10;
             require(
                 (reward + cost) < getMoneyPoolBalance(),
                 "not enough amount in money pool"
@@ -106,7 +104,6 @@ contract Gambling {
         balances[msg.sender] = 0;
         predictions[msg.sender].num = 0;
         predictions[msg.sender].time = 0;
-        return (reward, pPrice, isCorrect);
     }
 
     function getMoneyPoolBalance() public view returns (uint) {

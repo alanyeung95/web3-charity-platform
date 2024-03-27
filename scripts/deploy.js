@@ -35,15 +35,15 @@ async function main() {
   await donationContract.deployed();
   console.log("DonationContract deployed to:", donationContract.address);
 
-  //deploy gambling contract
+  //deploy gambling
   const GamblingContract = await hre.ethers.getContractFactory(
     "Gambling"
   );
   const donationContractAddress = donationContract.address;
-  const greeterAddress = process.env.REACT_APP_GREETER_ADDRESS;
+  const greeterAddress = "0xc7B6ccff79bAeF2F6E8696D36B8c44Ca15a9c619";
   const gambling = await GamblingContract.deploy(donationContractAddress, greeterAddress, 3);
   await gambling.deployed();
-
+  console.log("GamblingContract deployed to:", gambling.address);
   /*
   // Deploy SampleCoin contract
   const SampleCoin = await hre.ethers.getContractFactory("SampleCoin");

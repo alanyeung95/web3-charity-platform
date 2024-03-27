@@ -109,7 +109,7 @@ const GamblingComponent = () => {
   };
 
   // Fetches the current value store in greeting
-  async function fetchGreeting() {
+  async function fetchBTCPrice() {
     // If MetaMask exists
     if (typeof window.ethereum !== "undefined") {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -121,8 +121,8 @@ const GamblingComponent = () => {
       try {
         const data2 = await contract.getLatestPrice();
         setBPrice(ethers.utils.formatEther(data2));
-        const data3 = await contract.getETHLatestPrice();
-        setEPrice(ethers.utils.formatEther(data3));
+        // const data3 = await contract.getETHLatestPrice();
+        // setEPrice(ethers.utils.formatEther(data3));
       } catch (error) {
         console.log("Error: ", error);
       }
@@ -131,8 +131,6 @@ const GamblingComponent = () => {
 
   return (
     <div>
-
-
       <div className="heading">
         <h1>Gambling</h1>
         {/* money_pool */}
@@ -140,9 +138,9 @@ const GamblingComponent = () => {
 
         {/* show prices */}
         <div>
-          <button onClick={fetchGreeting}>show price</button>
+          <button onClick={fetchBTCPrice}>show price</button>
           <h3>bitcoin price: {bPrice}</h3>
-          <h3>Ethereum price: {ePrice}</h3>
+          {/* <h3>Ethereum price: {ePrice}</h3> */}
         </div>
       </div>
 
@@ -158,7 +156,7 @@ const GamblingComponent = () => {
 
         <div className="right">
           {/* start game */}
-          <h3>user balance: {userBalance}</h3>
+          <h3>The amount you bet: {userBalance}</h3>
           <div className="selections">
             <input
               className="in"
