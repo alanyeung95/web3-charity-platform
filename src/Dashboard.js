@@ -4,7 +4,9 @@ import { ethers } from "ethers";
 import "./Dashboard.css";
 import DonationContract from "./artifacts/contracts/DonationContract.sol/DonationContract.json";
 import UserProfileABI from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
-import { Link } from "react-router-dom";
+
+const userProfileContractAddress =
+  process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
 function Dashboard() {
   const [balance, setBalance] = useState("0.0000");
@@ -14,16 +16,18 @@ function Dashboard() {
   const [userProfiles, setUserProfiles] = useState([]);
   const [userAddress, setUserAddress] = useState("");
 
-  const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-  const secretUUID = process.env.REACT_APP_SECRET_MINT_NFT_LINK;
-  const userProfileContractAddress =
-    process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
-
+  const provider = useMemo(
+    () => new ethers.providers.Web3Provider(window.ethereum),
+    []
+  );
+  //const signer = provider.getSigner();
+  const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421";
   const donationContractAddress =
     process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
 
-  const fetchMoneyPoolBalance = async () => {
+  //const contractABI = []; // Replace with your contract ABI
+
+  const fetchMoneyPoolBalance = useCallback(async () => {
     // leave the debug message here so that we know if this function is called more than once or not
     console.log("fetchMoneyPoolBalance");
 
@@ -34,11 +38,11 @@ function Dashboard() {
     } catch (error) {
       console.error("Error fetching balance:", error);
     }
-  };
+  }, [provider, contractAddress]);
 
-  const requestAccount = async () => {
+  async function requestAccount() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
-  };
+  }
 
   const donate = async (signer) => {
     const contract = new ethers.Contract(
@@ -89,7 +93,7 @@ function Dashboard() {
     fetchUserProfiles();
   };
 
-  const handleDonate = async () => {
+  async function handleDonate() {
     if (!donationAmount) return;
 
     if (typeof window.ethereum !== "undefined") {
@@ -108,9 +112,9 @@ function Dashboard() {
       setIsLoading(false);
       fetchMoneyPoolBalance(); // refresh the balance
     }
-  };
+  }
 
-  const fetchUserProfiles = async () => {
+  const fetchUserProfiles = useCallback(async () => {
     // leave the debug message here so that we know if this function is called more than once or not
     console.log("fetchUserProfiles");
 
@@ -141,7 +145,7 @@ function Dashboard() {
     } catch (error) {
       console.error("Error fetching user profiles:", error);
     }
-  };
+  }, [userProfileContractAddress]); // put dependencies here, otherwise this function will get triggered again and again
 
   const handleClaimPrize = async () => {
     console.log("handleClaimPrize");
@@ -224,7 +228,7 @@ function Dashboard() {
     await tx.wait();
   };
 
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = useCallback(async () => {
     // leave the debug message here so that we know if this function is called more than once or not
     console.log("fetchUserInfo");
 
@@ -232,7 +236,7 @@ function Dashboard() {
     const signer = provider.getSigner();
     const address = await signer.getAddress();
     setUserAddress(address);
-  };
+  }, []);
 
   const isTopUser = () => {
     return userProfiles.length > 0 && userProfiles[0].address === userAddress;
@@ -242,7 +246,7 @@ function Dashboard() {
     fetchUserInfo();
     fetchMoneyPoolBalance();
     fetchUserProfiles();
-  }, []);
+  }, [fetchUserInfo, fetchMoneyPoolBalance, fetchUserProfiles]);
 
   return (
     <div className="Dashboard">
@@ -306,14 +310,12 @@ function Dashboard() {
           {!isLoading && donationSuccess && (
             <div className="success-message">
               <p>Donation Successful! Thank you for your contribution.</p>
-              <Link to={`/${secretUUID}`}>
-                Click this link to mint your NFT to join the gambling
-              </Link>
               {/* You can add an animation or image here */}
             </div>
           )}
         </div>
       </div>
+      <button onClick={transferFund}>Donate</button>
     </div>
   );
 }
