@@ -27,7 +27,7 @@ const MintNFT = () => {
   };
 
   useEffect(() => {
-    if (connected && account) {
+    if (account) {
       const checkNFTOwnership = async () => {
         const balance = await contract.balanceOf(account, nftId);
 
