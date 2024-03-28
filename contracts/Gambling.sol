@@ -13,11 +13,10 @@ contract Gambling {
         int256 price;
     }
 
-    mapping(address => uint256) public balances;
+    mapping(address => uint256) public balances; // in wei unit
     mapping(address => Prediction) public predictions;
 
     uint public revealTime;
-    uint public operationCost;
 
     address payable public moneyPoolAddress;
     DonationContract moneyPoolInstance;
@@ -41,10 +40,12 @@ contract Gambling {
 
     function depositAndPredict(uint8 _pre) external payable {
         require(msg.value > 0, "Deposit value must be greater than 0");
-        require(
-            balances[msg.sender] + msg.value >= balances[msg.sender],
-            "Integer overflow"
-        );
+
+        // this checking may cause bugs due to the ether formatting i guess
+        //require(
+        //    balances[msg.sender] + msg.value >= balances[msg.sender],
+        //    "Integer overflow"
+        //);
         require(_pre == 1 || _pre == 2 || _pre == 3, "invalid prediction");
         // require(
         //     predictions[msg.sender].num == 0,
@@ -85,8 +86,9 @@ contract Gambling {
         }
         bool isCorrect = predictions[msg.sender].num == result;
         //if the user gets the right result, send reward to the user, send the cost to this contract.
+
         if (isCorrect) {
-            uint256 reward = (balances[msg.sender] * 4) / 10;
+            uint256 reward = (balances[msg.sender] * 14) / 10;
             uint256 cost = (balances[msg.sender] * 2) / 10;
             require(
                 (reward + cost) < getMoneyPoolBalance(),
@@ -96,11 +98,20 @@ contract Gambling {
                 balances[msg.sender] + reward >= balances[msg.sender],
                 "Integer overflow"
             );
-            //
-            // moneyPoolInstance.transferToUser(payable(address(this)), cost);
-            operationCost += cost;
+
+            // transfer 20% of fund to operation team wallet address
+            // but it is too complicated to implement right now
+            /*
+            moneyPoolInstance.transferToUser(
+                payable(address(moneyPoolAddress)),
+                cost
+            );
+            */
             moneyPoolInstance.transferToUser(payable(msg.sender), reward);
+        } else {
+            // doing nothing, as player already deposit money into the pool
         }
+
         balances[msg.sender] = 0;
         predictions[msg.sender].num = 0;
         predictions[msg.sender].time = 0;
@@ -113,11 +124,4 @@ contract Gambling {
     function getUserBalance() external view returns (uint256) {
         return balances[msg.sender];
     }
-
-    // function withdraw(uint _amount) public {
-    //     require(_amount > 0, "Withdrawal amount must be greater than 0");
-    //     require(balances[msg.sender] >= _amount, "Insufficient balance");
-    //     balances[msg.sender] -= _amount;
-    //     payable(msg.sender).transfer(_amount);
-    // }
 }

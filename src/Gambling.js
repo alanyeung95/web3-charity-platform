@@ -8,6 +8,7 @@ import "./Gambling.css";
 
 const gamblingAddress = process.env.REACT_APP_GAMBLING_ADDRESS;
 const greeterAddress = process.env.REACT_APP_GREETER_ADDRESS;
+const donationContractAddress = process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
 
 const GamblingComponent = () => {
   const [moneyPool, setMoneyPool] = useState(0);
@@ -54,11 +55,21 @@ const GamblingComponent = () => {
     signer = provider.getSigner();
     contract = new ethers.Contract(gamblingAddress, Gambling.abi, signer);
 
-    const amount = await contract.getMoneyPoolBalance();
-    const amount_f = ethers.utils.formatEther(amount);
+    console.log("fetchMoneyPoolBalance");
+
+    try {
+      const balanceWei = await provider.getBalance(donationContractAddress);
+      const balanceEther = ethers.utils.formatEther(balanceWei);
+      setMoneyPool(parseFloat(balanceEther).toFixed(5));
+    } catch (error) {
+      console.error("Error fetching balance:", error);
+    }
+
+    //const amount = await contract.getMoneyPoolBalance();
+    //const amount_f = ethers.utils.formatEther(amount);
     const balance = await contract.getUserBalance();
     const balance_f = ethers.utils.formatEther(balance);
-    setMoneyPool(amount_f);
+    //setMoneyPool(amount_f);
     setUserBalance(balance_f);
   }
 
