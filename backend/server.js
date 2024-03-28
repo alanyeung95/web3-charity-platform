@@ -8,11 +8,13 @@ import { create } from "@web3-storage/w3up-client";
 import { filesFromPaths } from "files-from-path";
 
 import DonationContract from "../src/artifacts/contracts/DonationContract.sol/DonationContract.json" assert { type: "json" };
+import UserProfileContract from "../src/artifacts/contracts/UserProfile.sol/UserProfile.json" assert { type: "json" };
 
 dotenv.config();
 
 const email = process.env.WEB3_STORAGE_EMAIL;
 const key = process.env.WEB3_STORAGE_KEY;
+const fundDistributionNode = process.env.FUND_DISTRIBUTION_NODE == "true";
 
 const app = express();
 app.use(cors());
@@ -29,6 +31,32 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+const privateKey = process.env.METAMASK_PRIVATE_KEY;
+const doncationContractAddress = process.env.DONATION_CONTRACT_ADDRESS;
+const userProfileContractAddress = process.env.USER_PROFILE_CONTRACT_ADDRESS;
+
+let provider,
+  wallet,
+  donationContract,
+  userProfileContract = null;
+
+try {
+  provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL); // e.g., Infura/Alchemy URL
+  wallet = new ethers.Wallet(privateKey, provider);
+  donationContract = new ethers.Contract(
+    doncationContractAddress,
+    DonationContract.abi,
+    wallet
+  );
+  userProfileContract = new ethers.Contract(
+    userProfileContractAddress,
+    UserProfileContract.abi,
+    wallet
+  );
+} catch (err) {
+  console.log("Please refer .env.example and readme to set your api keys");
+}
+
 app.post("/upload", upload.single("file"), async (req, res) => {
   const path = req.file.path;
   const files = await filesFromPaths([path]);
@@ -43,26 +71,30 @@ app.post("/upload", upload.single("file"), async (req, res) => {
   res.status(200).json({ cid: cidString });
 });
 
-/*
-app.post("/test", async (req, res) => {
-  res.status(200);
-});
-*/
-
-async function transferToNGOs() {
-  const privateKey = process.env.METAMASK_PRIVATE_KEY;
-  const contractAddress = process.env.DONATION_CONTRACT_ADDRESS;
-  const provider = new ethers.providers.JsonRpcProvider(process.env.RPC_URL); // e.g., Infura/Alchemy URL
-  const wallet = new ethers.Wallet(privateKey, provider);
-  const contract = new ethers.Contract(
-    contractAddress,
-    DonationContract.abi,
-    wallet
-  );
+app.get("/claimPrize", async (req, res) => {
+  console.log("claimPrize");
+  const userAddress = req.query.address;
 
   try {
+    const tx = await donationContract.claimPrizeV2(userAddress);
+    await tx.wait();
+
+    const tx2 = await userProfileContract.resetScore(userAddress);
+    await tx2.wait();
+
+    res
+      .status(200)
+      .json({ status: "ok", message: "Prize claimed successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ status: "error", message: "Error claiming prize" });
+  }
+});
+
+async function transferToNGOs() {
+  try {
     // hardcoding the address for now
-    const tx = await contract.transferToNGO(
+    const tx = await donationContract.transferToNGO(
       "0x43a12e3647FD7c9eE99524eB0361755e93D2A760"
     );
     const receipt = await tx.wait();
@@ -73,7 +105,7 @@ async function transferToNGOs() {
   }
 }
 
-setInterval(transferToNGOs, 15 * 60 * 1000);
+if (fundDistributionNode) setInterval(transferToNGOs, 15 * 60 * 1000);
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {

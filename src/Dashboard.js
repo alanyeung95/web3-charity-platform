@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { ethers } from "ethers";
+import axios from "axios";
 
 import "./Dashboard.css";
 import DonationContract from "./artifacts/contracts/DonationContract.sol/DonationContract.json";
@@ -15,6 +16,7 @@ function Dashboard() {
   const [donationSuccess, setDonationSuccess] = useState(false);
   const [userProfiles, setUserProfiles] = useState([]);
   const [userAddress, setUserAddress] = useState("");
+  const [isClaiming, setIsClaiming] = useState(false);
 
   const provider = useMemo(
     () => new ethers.providers.Web3Provider(window.ethereum),
@@ -149,46 +151,25 @@ function Dashboard() {
 
   const handleClaimPrize = async () => {
     console.log("handleClaimPrize");
+
     if (!userAddress) return;
+    setIsClaiming(true);
 
-    if (typeof window.ethereum !== "undefined") {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const address = signer.getAddress();
-
-      const donationContract = new ethers.Contract(
-        donationContractAddress,
-        DonationContract.abi,
-        signer
-      );
-
-      try {
-        const tx = await donationContract.claimPrize(address);
-        await tx.wait();
-        console.log("Prize claimed successfully!");
-        // Optionally, update UI or fetch new data
-      } catch (error) {
-        console.error("Error claiming the prize:", error);
-      }
-
-      const userProfileContract = new ethers.Contract(
-        userProfileContractAddress,
-        UserProfileABI.abi,
-        signer
-      );
-
-      try {
-        console.log(address);
-        const tx = await userProfileContract.resetScore(address);
-        await tx.wait();
-      } catch (error) {
-        console.error("Error resetting the score:", error);
-      }
-
-      fetchUserInfo();
-      fetchMoneyPoolBalance();
-      fetchUserProfiles();
+    try {
+      const response = await axios.get("http://localhost:3001/claimPrize", {
+        params: { address: userAddress },
+      });
+      console.log(response);
+      alert("Prize claim is complete. Please check your wallet.");
+    } catch (err) {
+      console.log(err);
+      alert("Failed to claim the prize. Please try again.");
     }
+
+    fetchUserInfo();
+    fetchMoneyPoolBalance();
+    fetchUserProfiles();
+    setIsClaiming(false);
   };
 
   // for debug purpose
@@ -229,7 +210,6 @@ function Dashboard() {
   const fetchUserInfo = useCallback(async () => {
     // leave the debug message here so that we know if this function is called more than once or not
     console.log("fetchUserInfo");
-    console.log(DonationContract);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
@@ -238,7 +218,11 @@ function Dashboard() {
   }, []);
 
   const isTopUser = () => {
-    return userProfiles.length > 0 && userProfiles[0].address === userAddress;
+    return (
+      userProfiles.length > 0 &&
+      userProfiles[0].address === userAddress &&
+      userProfiles[0].score > 0
+    );
   };
 
   useEffect(() => {
@@ -260,14 +244,16 @@ function Dashboard() {
           {isTopUser() && (
             <div className="top-user-message">
               <p>
-                Congratulations! You are the rank 1 donator. Click the button to
+                Congratulations! You are the top donator. Click the button to
                 claim your prize.
               </p>
               <button
                 onClick={handleClaimPrize}
-                style={{ backgroundColor: "green" }}
+                style={{ backgroundColor: isClaiming ? "#cccccc" : "green" }}
+                disabled={isClaiming}
+                className="claim-button"
               >
-                Claim Prize
+                {isClaiming ? "Claiming..." : "Claim Prize"}
               </button>
             </div>
           )}
@@ -314,7 +300,9 @@ function Dashboard() {
           )}
         </div>
       </div>
-      <button onClick={transferFund}>Donate</button>
+      <button onClick={transferFund}>
+        Debug: Transfer Money from Smart Contract to Metamask Wallet
+      </button>
     </div>
   );
 }

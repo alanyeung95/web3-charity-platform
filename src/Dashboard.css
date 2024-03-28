@@ -53,3 +53,8 @@
 .top-user-message p {
   margin-bottom: 10px;
 }
+
+.claim-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}

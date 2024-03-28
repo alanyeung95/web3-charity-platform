@@ -41,6 +41,14 @@ contract DonationContract {
         payable(to).transfer(0.05 ether);
     }
 
+    function claimPrizeV2(address payable to) public onlyOwner {
+        uint256 contractBalance = address(this).balance;
+        require(contractBalance > 0, "Insufficient balance in contract");
+
+        uint256 prizeAmount = contractBalance / 2;
+        to.transfer(prizeAmount);
+    }
+
     function transferToNGO(address payable ngoAddress) public onlyOwner {
         require(
             address(this).balance >= 0.0001 ether,
