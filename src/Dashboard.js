@@ -188,8 +188,6 @@ function Dashboard() {
       fetchUserInfo();
       fetchMoneyPoolBalance();
       fetchUserProfiles();
-
-      console.log("setting ui");
     }
   };
 
@@ -231,6 +229,7 @@ function Dashboard() {
   const fetchUserInfo = useCallback(async () => {
     // leave the debug message here so that we know if this function is called more than once or not
     console.log("fetchUserInfo");
+    console.log(DonationContract);
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();

@@ -70,12 +70,11 @@ function Home() {
       const address = await signer.getAddress();
       const balance = await contract.balanceOf(address, nftId);
 
-      console.log(balance);
       if (balance > 0) {
-        console.log("have nft");
+        //console.log("have nft");
         return true;
       } else {
-        console.log("don't have nft");
+        //console.log("don't have nft");
         return false;
       }
     }

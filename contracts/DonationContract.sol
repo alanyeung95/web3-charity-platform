@@ -8,6 +8,7 @@ while also providing the flexibility and safety of not storing all the funds wit
 
 contract DonationContract {
     address payable public moneyPoolAddress;
+    address public owner;
 
     event DonationReceived(address indexed donor, uint amount);
     event FundsTransferredToNGO(address indexed ngoAddress, uint amount);
@@ -15,6 +16,12 @@ contract DonationContract {
 
     constructor(address payable _moneyPoolAddress) {
         moneyPoolAddress = _moneyPoolAddress;
+        owner = msg.sender;
+    }
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can call this function.");
+        _;
     }
 
     // user to money pool
@@ -34,13 +41,13 @@ contract DonationContract {
         payable(to).transfer(0.05 ether);
     }
 
-    function transferToNGO(address payable ngoAddress) public {
+    function transferToNGO(address payable ngoAddress) public onlyOwner {
         require(
-            address(this).balance >= 0.001 ether,
+            address(this).balance >= 0.0001 ether,
             "Insufficient funds in contract"
         );
-        ngoAddress.transfer(0.001 ether);
-        emit FundsTransferredToNGO(ngoAddress, 0.001 ether);
+        ngoAddress.transfer(0.0001 ether);
+        emit FundsTransferredToNGO(ngoAddress, 0.0001 ether);
     }
 
     // transferToUser
