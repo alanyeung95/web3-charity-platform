@@ -35,6 +35,11 @@ contract UserProfile {
         profiles[userAddress].score += amount;
     }
 
+    function increaseScore(address userAddress, uint amount) public {
+        require(addedUserAddresses[userAddress], "User does not exist");
+        profiles[userAddress].score += amount;
+    }
+
     function resetScore(address userAddress) public {
         profiles[userAddress].score = 0;
     }

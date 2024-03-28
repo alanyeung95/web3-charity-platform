@@ -7,6 +7,13 @@ import "./Greeter.sol";
 contract Gambling {
     address private owner;
 
+    //  0 = lose, 1 = win
+    event PredictionResult(
+        address indexed user,
+        int16 result,
+        uint256 originalBet
+    );
+
     struct Prediction {
         uint256 num;
         uint256 time;
@@ -77,6 +84,8 @@ contract Gambling {
         uint8 result = 0;
         int256 latestPrice = greeterInstance.getLatestPrice();
         int256 pPrice = predictions[msg.sender].price;
+        uint256 originalBet = balances[msg.sender];
+
         if (latestPrice < pPrice) {
             result = 1;
         } else if (latestPrice > pPrice) {
@@ -108,8 +117,10 @@ contract Gambling {
             );
             */
             moneyPoolInstance.transferToUser(payable(msg.sender), reward);
+            emit PredictionResult(msg.sender, 1, originalBet);
         } else {
             // doing nothing, as player already deposit money into the pool
+            emit PredictionResult(msg.sender, 0, originalBet);
         }
 
         balances[msg.sender] = 0;

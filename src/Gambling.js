@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Gambling from "./artifacts/contracts/Gambling.sol/Gambling.json";
 import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
+import UserProfile from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
 import "./Gambling.css";
 
 const gamblingAddress = process.env.REACT_APP_GAMBLING_ADDRESS;
 const greeterAddress = process.env.REACT_APP_GREETER_ADDRESS;
 const donationContractAddress = process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
+const userProfileAddress = process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
 const GamblingComponent = () => {
   const [moneyPool, setMoneyPool] = useState(0);
@@ -29,31 +31,51 @@ const GamblingComponent = () => {
     await window.ethereum.request({ method: "eth_requestAccounts" });
   }
 
+  const listenForPredictionResult = async () => {
+    const signer = new ethers.providers.Web3Provider(
+      window.ethereum
+    ).getSigner();
+    const contract = new ethers.Contract(gamblingAddress, Gambling.abi, signer);
+
+    contract.on("PredictionResult", async (user, winOrLose, originalBet) => {
+      // Update your state or UI here
+      console.log(`winOrLose: ${winOrLose}, Reward: ${originalBet}`);
+      console.log(user);
+
+      if (winOrLose === 1) {
+        const userProfileContract = new ethers.Contract(
+          userProfileAddress,
+          UserProfile.abi,
+          signer
+        );
+
+        const scoreToAdd = originalBet * 0.4;
+        try {
+          const tx = await userProfileContract.increaseScore(
+            user,
+            scoreToAdd.toString()
+          );
+          await tx.wait();
+          console.log("Score updated successfully");
+        } catch (error) {
+          console.error("Error updating score:", error);
+        }
+      }
+
+      contract.removeAllListeners("PredictionResult");
+    });
+  };
+
   useEffect(() => {
     handleShowInfo();
     fetchBTCPrice();
   }, []);
 
-  // useEffect(() => {
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-  //   const contract = new ethers.Contract(donationContractAddress, DonationContract.abi, provider);
-
-  //   // Subscribe to the ValueChanged event
-  //   contract.on("FundsTransferredToUser", (from, newValue) => {
-  //     setEventData(prevEventData => [...prevEventData, { from, newValue }]);
-  //   });
-
-  //   // Cleanup function to unsubscribe from the event listener
-  //   return () => {
-  //     contract.removeAllListeners("FundsTransferredToUser");
-  //   };
-  // }, []);
-
   // show money_pool
   async function handleShowInfo() {
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
-    contract = new ethers.Contract(gamblingAddress, Gambling.abi, signer);
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(gamblingAddress, Gambling.abi, signer);
 
     console.log("fetchMoneyPoolBalance");
 
@@ -80,6 +102,7 @@ const GamblingComponent = () => {
       if (selectedPre !== 0) {
         if (typeof window.ethereum !== "undefined") {
           await requestAccount();
+
           const provider = new ethers.providers.Web3Provider(window.ethereum);
           const signer = provider.getSigner();
           const contract = new ethers.Contract(
@@ -106,6 +129,8 @@ const GamblingComponent = () => {
 
   async function handlResult() {
     try {
+      listenForPredictionResult();
+
       if (typeof window.ethereum !== "undefined") {
         await requestAccount();
         const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -131,12 +156,10 @@ const GamblingComponent = () => {
   async function fetchBTCPrice() {
     // If MetaMask exists
     if (typeof window.ethereum !== "undefined") {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const contract = new ethers.Contract(
-        greeterAddress,
-        Greeter.abi,
-        provider
-      );
+      const signer = new ethers.providers.Web3Provider(
+        window.ethereum
+      ).getSigner();
+      const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer);
       try {
         const data2 = await contract.getLatestPrice();
         const decimalValue = ethers.BigNumber.from(data2).toString();
