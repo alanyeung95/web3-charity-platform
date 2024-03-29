@@ -7,7 +7,7 @@ import "./Governance.css";
 
 const Governance = () => {
   const [ngos, setNgos] = useState([]);
-  const [selectedNgo, setSelectedNgo] = useState("");
+  const [userVote, setUserVote] = useState([]);
   const [transactions, setTransactions] = useState([]);
 
   const governanceContractAddress = process.env.REACT_APP_GOVERNANCE_ADDRESS;
@@ -29,6 +29,20 @@ const Governance = () => {
     }));
 
     return ngoData;
+  };
+
+  const fetchUserVote = async () => {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const address = await signer.getAddress();
+    const governanceContract = new ethers.Contract(
+      governanceContractAddress,
+      GovernanceABI.abi,
+      provider
+    );
+
+    const vote = await governanceContract.userVote(address);
+    setUserVote(vote);
   };
 
   const fetchTransactionHistory = async () => {
@@ -70,6 +84,8 @@ const Governance = () => {
   };
 
   useEffect(() => {
+    fetchUserVote();
+    fetchNgos();
     fetchTransactionHistory();
   }, []);
 
@@ -82,63 +98,17 @@ const Governance = () => {
       GovernanceABI.abi,
       signer
     );
-    await governanceContract.voteForNGO(index);
-    alert("Vote submitted for NGO #" + index);
-  };
 
-  const handleMoneyDonationFromThePool = async () => {
-    if (typeof window.ethereum !== "undefined") {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-      const address = signer.getAddress();
-
-      const governanceContract = new ethers.Contract(
-        governanceContractAddress,
-        GovernanceABI.abi,
-        signer
-      );
-
-      try {
-        const [ngos, voteCounts] = await governanceContract.getAllNGOVotes();
-
-        let highestVotes = 0;
-        let highestVotedNGO = { name: "", walletAddress: "", votes: 0 };
-
-        for (let i = 0; i < ngos.length; i++) {
-          if (voteCounts[i].toNumber() > highestVotes) {
-            highestVotes = voteCounts[i].toNumber();
-            highestVotedNGO = {
-              name: ngos[i].name,
-              walletAddress: ngos[i].walletAddress,
-              votes: highestVotes,
-            };
-          }
-        }
-
-        console.log("NGO with highest votes:", highestVotedNGO);
-
-        try {
-          const donationContract = new ethers.Contract(
-            donationContractAddress,
-            DonationContract.abi,
-            signer
-          );
-
-          const tx = await donationContract.transferToNGO(
-            highestVotedNGO.walletAddress
-          );
-          await tx.wait();
-          console.log(`Funds transferred to ${highestVotedNGO.name}`);
-        } catch (error) {
-          console.error("Error transferring funds to NGO:", error);
-        }
-      } catch (error) {
-        console.error("Error fetching highest voted NGO:", error);
-      }
-
-      return;
+    try {
+      await governanceContract.voteForNGO(index);
+      const ngoName = ngos[index].name;
+      alert(`Vote submitted for ${ngoName}`);
+    } catch (error) {
+      console.error("Error submitting vote:", error);
+      alert("Error submitting vote. Please try again.");
     }
   };
+
   return (
     <div className="governance-container">
       <h1 className="governance-title">NGO Governance</h1>
@@ -152,10 +122,11 @@ const Governance = () => {
               name="ngo"
               value={index}
               onChange={() => handleRadioChange(index)}
+              checked={ngos[index]?.walletAddress === userVote}
             />
             <label htmlFor={`ngo-${index}`}>
               {ngo.name} (Votes: {ngo.votes})
-            </label>{" "}
+            </label>
           </div>
         ))}
       </form>
