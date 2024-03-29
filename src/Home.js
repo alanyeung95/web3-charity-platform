@@ -15,7 +15,6 @@ import Dashboard from "./Dashboard";
 import GamblingComponent from "./Gambling";
 import AccountHistories from "./AccountHistories";
 import "./Home.css";
-import App from "./App";
 import UserProfile from "./UserProfile";
 import MintNFT from "./MintNFT";
 import Governance from "./Governance";
@@ -112,9 +111,6 @@ function Home() {
             <li>
               <Link to="/governance">Governance</Link>
             </li>
-            <li>
-              <Link to="/app">App</Link>
-            </li>
             <li className="wallet-button">
               <button onClick={toggleWalletConnect}>
                 {buttonText.current}
@@ -167,7 +163,6 @@ function Home() {
 
             {/* to-do: we should remove this route after demo */}
             <Route path={`/${secretUUID}`} element={<MintNFT />} />
-            <Route path="/app" element={<App />} />
             <Route path="/errorPage" element={<ErrorPage />} />
           </Routes>
         </div>
