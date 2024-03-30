@@ -24,7 +24,9 @@ const MintNFT = () => {
         .connect(signer)
         .mintFromMarketPlace(account, nftId);
       await mintTx.wait();
-      // to-do: implement toast to notify users the action succeeded
+
+      setHasNFT(true);
+
       console.log(`NFT with ID ${nftId} has been minted to ${account}`);
     } catch (error) {
       // to-do: implement toast to notify users the action failed
