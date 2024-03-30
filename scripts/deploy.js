@@ -10,7 +10,7 @@ async function main() {
   const userProfile = await UserProfile.deploy();
   await userProfile.deployed();
   console.log("UserProfile deployed to:", userProfile.address);
-*/
+  */
   /*
   const Governance = await hre.ethers.getContractFactory("Governance");
   const governance = await Governance.deploy();
@@ -39,7 +39,7 @@ async function main() {
 
   oracleAddress = oracle.address;
 */
-  ///*
+  /*
   //deploy gambling
   if (donationContractAddress === "")
     donationContractAddress = process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
@@ -55,7 +55,7 @@ async function main() {
   await gambling.deployed();
   console.log("GamblingContract deployed to:", gambling.address);
 
-  //*/
+  */
 
   /*
   const TicketNFT = await hre.ethers.getContractFactory("TicketNFT");

@@ -23,16 +23,10 @@ function Dashboard() {
     []
   );
   //const signer = provider.getSigner();
-  const contractAddress = "0x07979Bcd337d9c24b797ecFC1AE405ac76555421";
   const donationContractAddress =
     process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
 
-  //const contractABI = []; // Replace with your contract ABI
-
   const fetchMoneyPoolBalance = useCallback(async () => {
-    // leave the debug message here so that we know if this function is called more than once or not
-    console.log("fetchMoneyPoolBalance");
-
     try {
       const balanceWei = await provider.getBalance(donationContractAddress);
       const balanceEther = ethers.utils.formatEther(balanceWei);
@@ -40,7 +34,7 @@ function Dashboard() {
     } catch (error) {
       console.error("Error fetching balance:", error);
     }
-  }, [provider, contractAddress]);
+  }, [provider, donationContractAddress]);
 
   async function requestAccount() {
     await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -117,9 +111,6 @@ function Dashboard() {
   }
 
   const fetchUserProfiles = useCallback(async () => {
-    // leave the debug message here so that we know if this function is called more than once or not
-    console.log("fetchUserProfiles");
-
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const userProfileContract = new ethers.Contract(
@@ -178,25 +169,6 @@ function Dashboard() {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
-    /*
-    const userProfileContract = new ethers.Contract(
-      userProfileContractAddress,
-      UserProfileABI.abi,
-      signer
-    );
-
-    try {
-      const tx = await userProfileContract.resetScore(signer.getAddress());
-      await tx.wait();
-    } catch (error) {
-      console.error("Error resetting the score:", error);
-    }
-
-    fetchUserProfiles();
-
-    return;
-    */
-
     const donationContract = new ethers.Contract(
       donationContractAddress,
       DonationContract.abi,
@@ -208,9 +180,6 @@ function Dashboard() {
   };
 
   const fetchUserInfo = useCallback(async () => {
-    // leave the debug message here so that we know if this function is called more than once or not
-    console.log("fetchUserInfo");
-
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const address = await signer.getAddress();
