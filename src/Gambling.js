@@ -15,16 +15,11 @@ const userProfileAddress = process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 const GamblingComponent = () => {
   const [moneyPool, setMoneyPool] = useState(0);
   const [depositAmount, setDepositAmount] = useState("");
-  // const [withdrawAmount, setWithdrawAmmount] = useState('');
   const [userBalance, setUserBalance] = useState(0);
   const [selectedPre, setSelectedPre] = useState(0);
   const [bPrice, setBPrice] = useState(null);
-  const [ePrice, setEPrice] = useState(null);
-  const [loading, setLoading] = useState(false);
   // const [eventData, setEventData] = useState(null);
   const [result, setResult] = useState(null);
-
-  let provider, signer, contract;
 
   // Requests access to the user's Meta Mask Account
   async function requestAccount() {
@@ -76,8 +71,6 @@ const GamblingComponent = () => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
     const contract = new ethers.Contract(gamblingAddress, Gambling.abi, signer);
-
-    console.log("fetchMoneyPoolBalance");
 
     try {
       const balanceWei = await provider.getBalance(donationContractAddress);
@@ -247,48 +240,3 @@ const GamblingComponent = () => {
 };
 
 export default GamblingComponent;
-
-// //withdraw
-// async function handleWithdraw() {
-//   if (!withdrawAmount) return;
-//   try {
-//     if (selectedPre !== 0) {
-//       if (typeof window.ethereum !== "undefined") {
-//         await requestAccount();
-//         const provider = new ethers.providers.Web3Provider(window.ethereum)
-//         const signer = provider.getSigner();
-//         const contract = new ethers.Contract(gamblingAddress, Gambling.abi, signer);
-
-//         const ethValue = ethers.utils.parseEther(withdrawAmount);
-//         const withdrawTx = await contract.withdraw(ethValue);
-//         await withdrawTx.wait();
-
-//         const amount = await contract.getUserBalance();
-//         const amountF = ethers.utils.formatEther(amount);
-//         setUserBalance(amountF);
-//       }
-//       else {
-//         alert("Please install MetaMask or another Web3 provider extension");
-//       }
-//     } else {
-//       alert("Please select a prediction first.");
-//     }
-//   } catch (error) {
-//     console.error(error);
-//   }
-// }
-
-{
-  /* withdraw  */
-}
-{
-  /* <button onClick={handleWithdraw} style={{ backgroundColor: "red" }}>
-        withdraw
-      </button>
-      <input
-        onChange={(e) => setWithdrawAmmount(e.target.value)}
-        value={withdrawAmount}
-        placeholder="withdraw amount"
-        type="number"
-      /> */
-}
