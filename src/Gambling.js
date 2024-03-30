@@ -8,7 +8,7 @@ import UserProfile from "./artifacts/contracts/UserProfile.sol/UserProfile.json"
 import "./Gambling.css";
 
 const gamblingAddress = process.env.REACT_APP_GAMBLING_ADDRESS;
-const greeterAddress = process.env.REACT_APP_GREETER_ADDRESS;
+const greeterAddress = process.env.REACT_APP_ORACLE_ADDRESS;
 const donationContractAddress = process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
 const userProfileAddress = process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
