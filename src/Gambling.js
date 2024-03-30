@@ -3,12 +3,12 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import Gambling from "./artifacts/contracts/Gambling.sol/Gambling.json";
-import Greeter from "./artifacts/contracts/Greeter.sol/Greeter.json";
+import Oracle from "./artifacts/contracts/Oracle.sol/Oracle.json";
 import UserProfile from "./artifacts/contracts/UserProfile.sol/UserProfile.json";
 import "./Gambling.css";
 
 const gamblingAddress = process.env.REACT_APP_GAMBLING_ADDRESS;
-const greeterAddress = process.env.REACT_APP_ORACLE_ADDRESS;
+const oracleAddress = process.env.REACT_APP_ORACLE_ADDRESS;
 const donationContractAddress = process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
 const userProfileAddress = process.env.REACT_APP_USER_PROFILE_CONTRACT_ADDRESS;
 
@@ -159,7 +159,7 @@ const GamblingComponent = () => {
       const signer = new ethers.providers.Web3Provider(
         window.ethereum
       ).getSigner();
-      const contract = new ethers.Contract(greeterAddress, Greeter.abi, signer);
+      const contract = new ethers.Contract(oracleAddress, Oracle.abi, signer);
       try {
         const data2 = await contract.getLatestPrice();
         const decimalValue = ethers.BigNumber.from(data2).toString();

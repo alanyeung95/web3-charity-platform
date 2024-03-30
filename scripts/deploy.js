@@ -29,12 +29,21 @@ async function main() {
   );
   await donationContract.deployed();
   console.log("DonationContract deployed to:", donationContract.address);
+
+  donationContractAddress = donationContract.address
+
+  const Oracle = await hre.ethers.getContractFactory("Oracle");
+  const oracle = await Oracle.deploy();
+  await oracle.deployed();
+  console.log("Oracle deployed to:", oracle.address);
+
+  oracleAddress = oracle.address;
 */
-  /*
+  ///*
   //deploy gambling
-  if (donationContractAddress == "")
+  if (donationContractAddress === "")
     donationContractAddress = process.env.REACT_APP_DONATION_CONTRACT_ADDRESS;
-  if (oracleAddress == "")
+  if (oracleAddress === "")
     oracleAddress = process.env.REACT_APP_ORACLE_ADDRESS;
 
   const GamblingContract = await hre.ethers.getContractFactory("Gambling");
@@ -46,25 +55,14 @@ async function main() {
   await gambling.deployed();
   console.log("GamblingContract deployed to:", gambling.address);
 
-  */
-  /*
-  const Greeter = await hre.ethers.getContractFactory("Greeter");
-  const greeter = await Greeter.deploy("Hello, Hardhat!");
-  await greeter.deployed();
-  console.log("Greeter deployed to:", greeter.address);
+  //*/
 
+  /*
   const TicketNFT = await hre.ethers.getContractFactory("TicketNFT");
   const ticketNFT = await TicketNFT.deploy("testing nft");
   await ticketNFT.deployed();
   console.log("TicketNFT deployed to:", ticketNFT.address);
 */
-  /*
-  // Deploy SampleCoin contract
-  const SampleCoin = await hre.ethers.getContractFactory("SampleCoin");
-  const sampleCoin = await SampleCoin.deploy();
-  await sampleCoin.deployed();
-  console.log("SampleCoin deployed to:", sampleCoin.address);
-  */
 }
 
 main()

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 import "./DonationContract.sol";
-import "./Greeter.sol";
+import "./Oracle.sol";
 
 contract Gambling {
     address private owner;
@@ -28,20 +28,16 @@ contract Gambling {
     address payable public moneyPoolAddress;
     DonationContract moneyPoolInstance;
 
-    address public greeterAddress;
-    Greeter greeterInstance;
+    address public oracleAddress;
+    Oracle oracleInstance;
 
-    constructor(
-        address payable _moneyPool,
-        address _greeter,
-        uint _revealTime
-    ) {
+    constructor(address payable _moneyPool, address _oracle, uint _revealTime) {
         owner = msg.sender;
         revealTime = _revealTime;
         moneyPoolAddress = _moneyPool;
         moneyPoolInstance = DonationContract(moneyPoolAddress);
-        greeterAddress = _greeter;
-        greeterInstance = Greeter(greeterAddress);
+        oracleAddress = _oracle;
+        oracleInstance = Oracle(oracleAddress);
         console.log("Deploying the Gambling contract. /n Owner: ", owner);
     }
 
@@ -64,7 +60,7 @@ contract Gambling {
     }
 
     function predict(uint8 _pre) internal {
-        int256 latestPrice = greeterInstance.getLatestPrice();
+        int256 latestPrice = oracleInstance.getLatestPrice();
         predictions[msg.sender] = Prediction(
             _pre,
             block.timestamp + revealTime,
@@ -82,7 +78,7 @@ contract Gambling {
             "Reveal time has not yet arrived."
         );
         uint8 result = 0;
-        int256 latestPrice = greeterInstance.getLatestPrice();
+        int256 latestPrice = oracleInstance.getLatestPrice();
         int256 pPrice = predictions[msg.sender].price;
         uint256 originalBet = balances[msg.sender];
 

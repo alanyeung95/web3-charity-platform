@@ -300,9 +300,11 @@ function Dashboard() {
           )}
         </div>
       </div>
+      {/*
       <button onClick={transferFund}>
         Debug: Transfer Money from Smart Contract to Metamask Wallet
       </button>
+          */}
     </div>
   );
 }
