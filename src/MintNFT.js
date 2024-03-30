@@ -16,24 +16,34 @@ const MintNFT = () => {
   const { account } = useSDK();
 
   const mintNft = async () => {
-    if (!account || account === "") return;
+    if (!account || account.trim() === "") return;
 
-    const signer = ethProvider.getSigner();
-    const mintTx = await contract
-      .connect(signer)
-      .mintFromMarketPlace(account, nftId);
-    await mintTx.wait();
-    console.log(`NFT with ID ${nftId} has been minted to ${account}`);
+    try {
+      const signer = ethProvider.getSigner();
+      const mintTx = await contract
+        .connect(signer)
+        .mintFromMarketPlace(account, nftId);
+      await mintTx.wait();
+      // to-do: implement toast to notify users the action succeeded
+      console.log(`NFT with ID ${nftId} has been minted to ${account}`);
+    } catch (error) {
+      // to-do: implement toast to notify users the action failed
+      console.error("Error minting NFT:", error);
+    }
   };
 
   useEffect(() => {
-    if (account) {
-      const checkNFTOwnership = async () => {
+    const checkNFTOwnership = async () => {
+      try {
         const balance = await contract.balanceOf(account, nftId);
+        setHasNFT(balance > 0);
+      } catch (error) {
+        console.error("Error checking NFT ownership:", error);
+        setHasNFT(false); // Handle error by setting state appropriately
+      }
+    };
 
-        balance > 0 ? setHasNFT(true) : setHasNFT(false);
-      };
-
+    if (account) {
       checkNFTOwnership();
     }
   }, [account]);
