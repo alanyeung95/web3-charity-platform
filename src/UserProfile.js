@@ -81,15 +81,8 @@ const UserProfile = () => {
     }
   };
 
-  const handleFileChange = (event) => {
-    setFile(event.target.files[0]);
-  };
-
-  const handleUpload = async () => {
-    if (!file) {
-      alert("Please select a file to upload");
-      return;
-    }
+  const handleFileChange = async (event) => {
+    const file = event.target.files[0];
 
     const formData = new FormData();
     formData.append("file", file);
@@ -134,7 +127,6 @@ const UserProfile = () => {
         />
 
         <input type="file" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Upload Image</button>
       </div>
       <form onSubmit={handleProfileUpdate}>
         <div>
