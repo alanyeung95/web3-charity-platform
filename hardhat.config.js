@@ -33,8 +33,8 @@ module.exports = {
     },
     */
     sepolia: {
-      url: "https://eth-sepolia.g.alchemy.com/v2/{YOUR_API_KEY}",
-      accounts: [`0x{YOUR_METAMASK_PRIVATE_KEY}`],
+      url: "https://eth-sepolia.g.alchemy.com/v2/0x5294296693dE027cCc331bDf6F194115C7Ea094E",
+      accounts: [`0x5dbe8a9292261ccf62ce1c4a5702a804d1c69b33a48c98798efafe0ec7116d14`],
     },
   },
 };
