@@ -9,9 +9,16 @@ The motivation behind the Web3 Charity Lottery Platform stems from a desire to a
 # Main Features:
 
 - Users can register or participate in the platform using crypto wallets such as MetaMask and holding NFTs.
+  ![Direct Donations](readme/mint-nft.png)
+
 - Users have the option to make direct donations to the money pool, empowering them to support causes they are passionate about.
+  ![Direct Donations](readme/dashboard.png)
+
 - Users could engage in competitions, such as donation ranking, and therefore win rewards in cryptocurrencies. User can gamble against the money pool to win money and increase their ranking. For example, John does gambling and gets a profit, and 40% of it will go to the prize pool, 40% will go to John's wallet, and the remaining 20% of it will go to the operational cost(as gas cost). This distribution model ensures that a portion of proceeds is allocated fairly and thus makes the platform sustainable.
+  ![Direct Donations](readme/gambling.png)
+
 - Users have the opportunity to vote for NGOs they believe are deserving, particularly those that are historically marginalized. Periodically, the money pool selects the NGO with the highest number of votes and distributes donations accordingly.
+  ![Direct Donations](readme/donate-to-ngos.png)
 
 # Setup
 
