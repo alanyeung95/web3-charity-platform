@@ -52,7 +52,7 @@ const MintNFT = () => {
 
   return (
     <div className="nft-container">
-      <h1>Mint NFT</h1>
+      <h1>Mint an NFT</h1>
       <img
         className="nft-placeholder"
         src={nftPlaceholder}
@@ -61,7 +61,7 @@ const MintNFT = () => {
       {hasNFT ? (
         <div>You already have a NFT minted!</div>
       ) : (
-        <button onClick={mintNft}>Mint a NFT</button>
+        <button onClick={mintNft}>Mint an NFT</button>
       )}
     </div>
   );
