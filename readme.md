@@ -6,6 +6,10 @@ This is a group projecnt for UTSG CSC2125 24S: Blockchain Technology and Enginee
 
 The motivation behind the Web3 Charity Lottery Platform stems from a desire to address inefficiencies and challenges inherent in traditional methods of charitable giving. Key motivations include reducing banking fees associated with donations, promoting the adoption of Web3 technologies, incentivizing philanthropy through lottery participation, and consolidating knowledge in Solidity and the Web3 ecosystem. The platform aims to create a more cost-effective and transparent donation ecosystem while fostering greater user engagement and participation in charitable activities.
 
+# System Architecture:
+
+![System Architecture](readme/system-architecture.png)
+
 # Main Features:
 
 - Users can register or participate in the platform using crypto wallets such as MetaMask and holding NFTs.
